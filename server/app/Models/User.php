@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\enum\roles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -18,9 +19,16 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'uuid',
+        'profile_pic',
+        'full_name',
+        'mobile_number',
+        'address',
         'email',
         'password',
+        'role',
+        'status'
+
     ];
 
     /**
@@ -40,5 +48,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role'=>roles::class,
     ];
+    public function get_section(){
+        return $this->hasOne(sectionClasses::class,'section_id','id');
+    }
 }
