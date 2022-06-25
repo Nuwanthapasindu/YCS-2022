@@ -29,10 +29,7 @@ Route::prefix('/auth')->group(function (){
 // SECTION ROUTES
 Route::prefix('/sections')->group(function (){
     Route::post('/add',[SectionController::class,'add']);
-    Route::get('/assign/{uid}',[SectionController::class,'assign']);
     Route::get('/all',[SectionController::class,'all']);
-    Route::get('/edit/{id}',[SectionController::class,'edit']);
-    Route::put('/update/{id}',[SectionController::class,'update']);
 
 });
 

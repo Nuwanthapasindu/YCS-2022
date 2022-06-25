@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('section_id')->constrained('sections')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('class_id')->nullable()->constrained('section_classes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('class_id')->constrained('section_classes')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Webpatser\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\section>
@@ -17,8 +18,9 @@ class sectionFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>$this->faker->unique()->numberBetween(1,10),
-//            'additional_data'=>
+            'uuid'=>Uuid::generate()->string,
+            'name'=>'*',
+            'additional_data'=> "ADMIN CLASS"
         ];
     }
 }

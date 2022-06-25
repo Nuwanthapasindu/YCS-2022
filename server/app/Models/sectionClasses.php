@@ -16,6 +16,6 @@ class sectionClasses extends Model
         'year'
     ];
     public function section(){
-        return $this->belongsTo(section::class,'section_id','uuid');
+        return $this->belongsTo(section::class,'section_id','id');
     }
 }
