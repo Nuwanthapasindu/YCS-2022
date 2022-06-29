@@ -22,7 +22,7 @@ use \App\Http\Controllers\TeacherController;
 
 Route::post('/auth/login',[AuthController::class,'login']);
 
-Route::group(['middleware'=>['cors', 'json.response']],function (){
+//Route::group(['middleware'=>['cors']],function (){
     Route::group(['middleware'=>['auth:api']],function (){
         Route::prefix('/auth')->group(function (){
             Route::get('/me',[AuthController::class,'Auth_user']);
@@ -58,5 +58,5 @@ Route::group(['middleware'=>['cors', 'json.response']],function (){
 
     });
 
-});
+//});
 

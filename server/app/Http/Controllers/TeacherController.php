@@ -23,12 +23,15 @@ class TeacherController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-//    public function __construct(Request $request)
-//    {
-//        if ($request->user('api') == null || $request->user('api')->role->name == roles::ADMIN->name|| $request->user('api')->role->name == roles::SECTION_HEAD->name):
-//            dd('You do not have permission to access this secured area');
-//        endif;
-//    }
+    public function __construct(Request $request)
+    {
+           if (auth()->guard('api')->user() === null ||
+               auth()->guard('api')->user()->status === false ||
+               auth()->guard('api')->user()->completed === false ||
+               auth()->guard('api')->user()->role->name !== roles::TEACHER->name):
+            dd('You do not have permission to access this secured area');
+        endif;
+    }
 
     /**
      *  Create Student
@@ -170,6 +173,10 @@ class TeacherController extends Controller
         endif;
 //        Fetch Student Using uuid
         $student = student::where('uuid',$uid)->first();
+        if ($student === null):
+
+            return response()->json(['status'=>400,'message'=>'Invalid Student id'],400);
+        endif;
         $attendence_check = attendence::where([
             ['student_id','=',$student->id],
             ['class_id','=',Auth::user()->get_user_class->class_id],

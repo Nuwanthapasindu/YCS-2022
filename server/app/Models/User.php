@@ -27,7 +27,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'status'
+        'status',
+        'completed'
 
     ];
 
@@ -49,6 +50,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'role'=>roles::class,
+        'status'=>'boolean',
+        'completed'=>'boolean'
     ];
     public function get_section(){
         return $this->hasOne(sectionClasses::class,'section_id','id');

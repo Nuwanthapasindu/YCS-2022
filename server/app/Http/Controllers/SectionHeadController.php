@@ -19,12 +19,15 @@ class SectionHeadController extends Controller
      * Constructor
      * @param Request $request
      */
-//    public function __construct(Request $request)
-//    {
-//        if ($request->user('api') == null || $request->user('api')->role->name == roles::TEACHER->name|| $request->user('api')->role->name == roles::ADMIN->name):
-//            dd('You do not have permission to access this secured area');
-//        endif;
-//    }
+    public function __construct(Request $request)
+    {
+            if (auth()->guard('api')->user() === null ||
+                auth()->guard('api')->user()->status === false ||
+                auth()->guard('api')->user()->completed === false ||
+                auth()->guard('api')->user()->role->name !== roles::SECTION_HEAD->name):
+            dd('You do not have permission to access this secured area');
+        endif;
+    }
 
     /**
      * ADD

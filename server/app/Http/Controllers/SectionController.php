@@ -17,12 +17,16 @@ use Webpatser\Uuid\Uuid;
 
 class SectionController extends Controller
 {
-//    public function __construct(Request $request)
-//    {
-//        if ($request->user('api') == null || $request->user('api')->role->name !== roles::ADMIN->name):
-//         dd('You do not have permission to access this secured area');
-//        endif;
-//    }
+    public function __construct()
+    {
+
+        if (auth()->guard('api')->user() === null ||
+            auth()->guard('api')->user()->status === false ||
+            auth()->guard('api')->user()->completed === false ||
+            auth()->guard('api')->user()->role->name !== roles::ADMIN->name):
+         dd('You do not have permission to access this secured area');
+        endif;
+    }
 
     /**
      * ADD
@@ -97,7 +101,7 @@ class SectionController extends Controller
         $user_class->class_id = $class_id;
         $user_class->save();
 
-        emailController::new_account_notify($request->email,$request->full_name,$request->password,Auth::user()->role->value);
+        emailController::new_account_notify($request->email,$request->full_name,roles::SECTION_HEAD->value);
         return response()->json(['status'=>201,'Message'=> 'Successfully Created'],201);
 
 

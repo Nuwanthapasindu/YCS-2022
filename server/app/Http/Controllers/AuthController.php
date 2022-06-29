@@ -34,9 +34,8 @@ class AuthController extends Controller
 //         Check Account Activation
      if (Auth::user()->status == true ):
 //        Passs the Access token
-//             $token = Auth::user()->createToken('Auth Token')->accessToken;
-//            return response()->json(['status'=>200,'token'=>$token],200);
-            return response()->json(['status'=>200,'message'=>'Your account'],200);
+             $token = Auth::user()->createToken('Auth Token')->accessToken;
+            return response()->json(['status'=>200,'token'=>$token],200);
 
             else:
             return response()->json(['status'=>401,'message'=>'Your account has been blocked'],401);
