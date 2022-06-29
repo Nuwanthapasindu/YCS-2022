@@ -28,6 +28,6 @@ class new_account extends Mailable
      */
     public function build()
     {
-        return $this->subject('Notification of creating a new account')->view('email.new_account',['data'=>$this->data]);
+        return $this->subject('Notification of creating a new account')->view('emails.new_account',['data'=>$this->data]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -27,14 +28,16 @@ class AuthController extends Controller
 
 //    Check the user
     if (!Auth::attempt($request->only(['email','password']))):
-    return response()->json(['status'=>401,'message'=>'Unauthorized'],401);
+    return response()->json(['status'=>401,'message'=>'Invalid Credentials'],401);
     else:
 
 //         Check Account Activation
      if (Auth::user()->status == true ):
 //        Passs the Access token
-             $token = Auth::user()->createToken('Auth Token')->accessToken;
-            return response()->json(['status'=>200,'token'=>$token],200);
+//             $token = Auth::user()->createToken('Auth Token')->accessToken;
+//            return response()->json(['status'=>200,'token'=>$token],200);
+            return response()->json(['status'=>200,'message'=>'Your account'],200);
+
             else:
             return response()->json(['status'=>401,'message'=>'Your account has been blocked'],401);
              endif;
@@ -49,8 +52,12 @@ class AuthController extends Controller
      */
     public function Auth_user(){
         $user =Auth::user();
-        $user->get_class;
-        return response()->json(['status'=>200,'user'=>$user]);
+       if ($user->status == true):
+           $user->get_user_class->get_class;
+           return response()->json(['status'=>200,'user'=>$user]);
+       else:
+           return response()->json(['status'=>401,'message'=>'Your account has been blocked'],401);
+           endif;
     }
 
     /**

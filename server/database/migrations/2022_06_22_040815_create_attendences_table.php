@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('section_id')->constrained('sections')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('class_id')->constrained('section_classes')->onDelete('cascade')->onUpdate('cascade');
             $table->date('date');
+            $table->boolean('attendance');
             $table->time('time');
             $table->timestamps();
         });

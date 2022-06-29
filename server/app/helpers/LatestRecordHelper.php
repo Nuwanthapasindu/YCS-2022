@@ -4,6 +4,7 @@ namespace App\helpers;
 
 use App\Models\section;
 use App\Models\sectionClasses;
+use App\Models\student;
 use App\Models\User;
 
 class LatestRecordHelper
@@ -25,5 +26,11 @@ class LatestRecordHelper
         $section_classes = sectionClasses::latest()->first('id');
 
         return $section_classes->id;
+    }
+    public static function latest_student()
+    {
+        $student = student::latest()->first('id');
+
+        return $student->id;
     }
 }

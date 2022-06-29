@@ -14,7 +14,8 @@ class attendence extends Model
         'section_id',
         'class_id',
         'date',
-        'time'
+        'time',
+        'attendance'
     ];
     public function student(){
         return $this->belongsTo(student::class,'student_id','id');

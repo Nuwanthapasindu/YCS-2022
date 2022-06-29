@@ -8,6 +8,24 @@
     <title>Document</title>
 </head>
 <body>
+Dear
 
+
+Your
+
+<h6>Dear {{$data['name']}}, Your {{$data['role']}} account has been successfully created. You can now log in to your account.</h6>
+<table>
+    <tr>
+        <th>email</th>
+        <td>Your Email Address</td>
+    </tr>
+        <th>password</th>
+        <td>{{$data['password']}}</td>
+    </tr>
+    <tr>
+        <th>Link</th>
+        <td>{{env('APP_FRONTEND_URL')}}</td>
+    </tr>
+</table>
 </body>
 </html>

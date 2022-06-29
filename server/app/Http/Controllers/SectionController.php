@@ -11,19 +11,25 @@ use App\Models\UserClasses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Webpatser\Uuid\Uuid;
 
 class SectionController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        if ($request->user('api') == null || $request->user('api')->role->name !== roles::ADMIN->name):
-//        dd('You do not have permission to access this secured area');
-         dd('You do not have permission to access this secured area');
-        endif;
-    }
+//    public function __construct(Request $request)
+//    {
+//        if ($request->user('api') == null || $request->user('api')->role->name !== roles::ADMIN->name):
+//         dd('You do not have permission to access this secured area');
+//        endif;
+//    }
 
+    /**
+     * ADD
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function add(Request $request){
         $rules = [
             'name'=>'required|string|unique:sections',
@@ -32,6 +38,7 @@ class SectionController extends Controller
             'password' =>'required|min:8',
             'email' =>'required|email|unique:users'
         ];
+
 //        Validating
         $validator = Validator::make($request->all(),$rules);
         if ($validator->fails()):
@@ -90,17 +97,18 @@ class SectionController extends Controller
         $user_class->class_id = $class_id;
         $user_class->save();
 
-        emailController::new_account_notify($request->email,$request->full_name);
+        emailController::new_account_notify($request->email,$request->full_name,$request->password,Auth::user()->role->value);
         return response()->json(['status'=>201,'Message'=> 'Successfully Created'],201);
 
 
     }
 
+    /**
+     * ALL
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function all(){
         $sections = section::where('id','!=','1')->get();
-//        foreach ($sections as $section) {
-//            $section->sections;
-//        }
         return response()->json(['status'=>200,'sections'=>$sections],200);
     }
 
