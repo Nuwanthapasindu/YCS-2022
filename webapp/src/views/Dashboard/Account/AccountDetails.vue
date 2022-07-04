@@ -6,94 +6,131 @@
             <!-- Nav Bar Start  -->
             <NavBar @toggleNav="toggle" />
             <!-- Nav Bar End  -->
+            <!-- Form -->
             <div class="container py-4 my-5">
                 <div class="row">
-                    <div class="col-xl-4">
-                        <!-- Profile picture card-->
-                        <div class="card mb-4 mb-xl-0">
-                            <div class="card-header">Profile Picture</div>
-                            <div class="card-body text-center">
-                                <!-- Profile picture image-->
-                                <img class="img-account-profile rounded-circle mb-2"
-                                    src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                                <!-- Profile picture help block-->
-                                <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                                <!-- Profile picture upload button-->
-                                <button class="btn btn-primary" type="button">Upload new image</button>
+                    <!-- Profile Details Start -->
+                    <div class="col-lg-4 col-md-12 mb-5">
+                        <div class="card shadow-sm">
+                            <div class="card-head profile_card">
+                                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                                    class="profile_pic" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <!-- Profile Details Start -->
+                        <div class="card shadow-sm">
+                            <div class="card-body py-5">
+                                <div class="row py-5">
+                                    <div class="col-lg-12">
+                                        <table class="table table-borderless table-hover h-100">
+                                            <tr>
+                                                <th>Full Name </th>
+                                                <td>Nuwantha Pasindu Kavishan Dias</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Mobile Number </th>
+                                                <td>0765991481</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Address</th>
+                                                <td>294/B/ Kuruduwaththa ,Mampe ,Piliyandala</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email</th>
+                                                <td>hnpkdias@gmail.com</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-8">
-                        <!-- Account details card-->
-                        <div class="card mb-4">
-                            <div class="card-header">Account Details</div>
+
+                </div>
+            </div>
+            <div class="container py-4 my-5">
+                <!-- Form -->
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-head">
+                                <!-- <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                                    class="profile_pic" alt=""> -->
+                                <h1>Update Profile</h1>
+                            </div>
                             <div class="card-body">
-                                <form>
-                                    <!-- Form Group (username)-->
-                                    <div class="mb-3">
-                                        <label class="small mb-1" for="inputUsername">Username (how your name will
-                                            appear to other users on the site)</label>
-                                        <input class="form-control" id="inputUsername" type="text"
-                                            placeholder="Enter your username">
+                                <form class="py-2">
+                                    <div class="row my-3">
+                                        <div class="col-lg-6 col-md-12 mb-4">
+                                            <label for="exampleInputEmail1" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" />
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-12 mb-4">
+                                            <label for="exampleInputEmail1" class="form-label">Mobile Number</label>
+                                            <input type="tel" class="form-control" />
+                                        </div>
+
                                     </div>
-                                    <!-- Form Row-->
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="inputFirstName">First name</label>
-                                            <input class="form-control" id="inputFirstName" type="text"
-                                                placeholder="Enter your first name">
+                                    <div class="row my-3">
+                                        <div class="col-lg-6 col-md-12 mb-4">
+                                            <label for="exampleInputEmail1" class="form-label">Address</label>
+                                            <input type="text" class="form-control" />
                                         </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="inputLastName">Last name</label>
-                                            <input class="form-control" id="inputLastName" type="text"
-                                                placeholder="Enter your last name">
-                                        </div>
-                                    </div>
-                                    <!-- Form Row        -->
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (organization name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="inputOrgName">Organization name</label>
-                                            <input class="form-control" id="inputOrgName" type="text"
-                                                placeholder="Enter your organization name">
-                                        </div>
-                                        <!-- Form Group (location)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="inputLocation">Location</label>
-                                            <input class="form-control" id="inputLocation" type="text"
-                                                placeholder="Enter your location" >
+                                        <div class="col-lg-6 col-md-12">
+                                            <label for="exampleInputEmail1" class="form-label">Email</label>
+                                            <input type="email" class="form-control" />
                                         </div>
                                     </div>
-                                    <!-- Form Group (email address)-->
-                                    <div class="mb-3">
-                                        <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                                        <input class="form-control" id="inputEmailAddress" type="email"
-                                            placeholder="Enter your email address">
-                                    </div>
-                                    <!-- Form Row-->
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (phone number)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="inputPhone">Phone number</label>
-                                            <input class="form-control" id="inputPhone" type="tel"
-                                                placeholder="Enter your phone number">
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <button type="submit" class="btn">Update</button>
                                         </div>
-                                        <!-- Form Group (birthday)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="inputBirthday">Birthday</label>
-                                            <input class="form-control" id="inputBirthday" type="text" name="birthday"
-                                                placeholder="Enter your birthday">
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <ImageUploader />
+                    </div>
+                </div>
+                <!-- Form End -->
+            </div>
+
+            <div class="container py-4 my-5">
+                <!-- Form -->
+                <div class="row">
+                    <div class="col-lg-12 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-head">
+                                <h1>Update Password</h1>
+                            </div>
+                            <div class="card-body">
+                                <form class="py-2">
+                                    <div class="row my-3">
+                                        <div class="col-lg-6 col-md-12 mb-4">
+                                            <label for="" class="form-label">Password</label>
+                                            <input type="password" class="form-control" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <label for="" class="form-label">Re Type Your Password</label>
+                                            <input type="password" class="form-control" />
                                         </div>
                                     </div>
-                                    <!-- Save changes button-->
-                                    <button class="btn btn-primary" type="button">Save changes</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Form End -->
             </div>
             <dashboard-footer />
         </div>
@@ -103,17 +140,23 @@
 </template>
 
 <script>
+import ImageUploader from '@/components/Dashboard/uploads/ImageUploader.vue';
 export default {
     data() {
         return {
-            nav_active: false
-        }
+            progress: false,
+            upload_progress: 0,
+            nav_active: false,
+            // image: ''
+            image: "https://images.unsplash.com/photo-1484402628941-0bb40fc029e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+        };
     },
     methods: {
         toggle(value) {
             this.nav_active = value;
         }
-    }
+    },
+    components: { ImageUploader }
 }
 </script>
 
@@ -127,5 +170,94 @@ main {
 
 .container {
     overflow-x: hidden;
+
+    .card {
+        border-radius: 20px;
+        overflow: hidden;
+        z-index: 1;
+
+        .card-head {
+            height: 200px;
+            background-image: url('@/assets/Dashboard/MyProfile/banner.jpg');
+            background-size: cover;
+            background-position: center center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.profile_card {
+                height: 400px;
+
+                img.profile_pic {
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 50%;
+
+                    object-fit: cover;
+                    border: 5px solid var(--dashboard-main);
+                    padding: 2px;
+                    transform: translate(0px, 0%);
+
+                }
+            }
+
+            img.profile_pic {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                object-fit: cover;
+                transform: translate(0px, 55%);
+                border: 5px solid var(--dashboard-main);
+                padding: 2px;
+
+            }
+
+            h1 {
+                color: #ffff;
+                font-weight: 900;
+            }
+        }
+
+        .card-body {
+            form {
+                input {
+                    border: none;
+                    border-bottom: 2px solid var(--dashboard-color);
+                    outline: 0;
+
+                    &::placeholder {
+                        font-weight: 400;
+                        color: var(--dashboard-color);
+                    }
+
+                    &:focus {
+                        outline: 0;
+                        box-shadow: none;
+                        transition: all .2s ease-in-out;
+                        border-bottom: 2px solid var(--dashboard-warning);
+
+                    }
+
+                }
+
+                label {
+                    font-weight: 700;
+                }
+
+                .btn {
+                    background: var(--dashboard-color);
+                    color: #fff;
+                    border-radius: 5px;
+                    font-weight: 800;
+                }
+            }
+
+            table.table {
+                tr {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
 </style>

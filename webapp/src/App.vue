@@ -37,4 +37,9 @@
 *::-webkit-scrollbar-thumb {
   background: var(--dashboard-color);
 }
+
+body{
+ max-width:100vw;
+ overflow-x: hidden;
+}
 </style>

@@ -11,54 +11,52 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card shadow w-100">
                             <div class="card-head">
-                                <h1>Add Sections</h1>
+                                <h1 class="text-center">Student Attendance History</h1>
                             </div>
                             <div class="card-body">
-                                <form>
-                                    <div class="row mb-3">
-                                        <div class="col-lg-5 col-md-12 my-2">
-
-                                            <span class="label">Select the section</span>
-
-                                            <SectionList />
-                                        </div>
-                                        <span
-                                            class="text-center d-flex align-items-center justify-contents-center col-lg-2 col-md-12">
-                                            OR
-                                        </span>
-                                        <div class="col-lg-5 col-md-12 my-2">
-                                            <span class="label">Type The Section</span>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                </form>
+                                <h3 class="text-center my-2">Please Select The Date</h3>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+                <TableWidget :TableData="TableData" :TableHeaders="TableHeaders" :Heading="Heading" v-if="table_show" />
             </div>
             <dashboard-footer />
         </div>
         <!-- Dashboard  Contents -->
 
     </main>
+
 </template>
 
 <script>
-import SectionList from '@/components/Dashboard/sections/SectionList.vue';
+import TableWidget from '@/components/Dashboard/tables/TableWidget.vue';
 export default {
     data() {
         return {
-            nav_active: false
-        };
+            nav_active: false,
+            table_show: false,
+            TableData: {},
+            Dates: {},
+            TableHeaders: ['#', 'Student', 'Attendance', 'Time', 'Marked By'],
+            Heading: "_ Attendance Records",
+        }
+    },
+    components: { TableWidget },
+    created() {
+
     },
     methods: {
         toggle(value) {
             this.nav_active = value;
         }
     },
-    components: { SectionList }
+
 }
 </script>
 
@@ -72,7 +70,6 @@ main {
 
 .container {
     overflow-x: hidden;
-    min-height: 100vh;
 
     .card {
         border-radius: 20px;
@@ -81,7 +78,7 @@ main {
 
         .card-head {
             height: 200px;
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('@/assets/Dashboard/Sections/banner.jpg');
+            background: linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(255, 0, 150, 0.3)), url('@/assets/Dashboard/StudentAttendance/Banner.jpg');
             background-size: cover;
             background-position: center center;
             display: flex;
@@ -94,7 +91,17 @@ main {
             }
         }
 
-        .card-body {}
+        .card-body {
+            table.table {
+                tr {
+                    input[type="checkbox"] {
+                        width: 20px;
+                        height: 20px;
+                        accent-color: var(--dashboard-main);
+                    }
+                }
+            }
+        }
     }
 }
 </style>

@@ -10,12 +10,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th v-for=" (TableHeader, key) in TableHeaders" :key="key">{{ TableHeader }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1</td>
+                                    <td v-for=" (TableHeader, key) in TableHeaders" :key="key">{{ TableHeader }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -35,12 +35,12 @@ export default {
             // required: true
         },
         TableHeaders: {
-            type: Object,
-            // required: true
+            type: Array,
+            required: true
         },
         Heading: {
             type: String,
-            // required: true
+            required: true
         },
     }
 }
@@ -54,7 +54,6 @@ export default {
 }
 
 .row {
-    width: 100vw;
     overflow-x: hidden;
 }
 </style>

@@ -32,13 +32,29 @@
                             </router-link>
                         </li>
                         <li class="nav-item">
+                            <router-link to="/dashboard/add-students" class="nav-link">
+                                <box-icon name="user-plus" :animation="IconConfig.animation" :color="IconConfig.color"
+                                    :size="IconConfig.size"></box-icon>
+                                <span>Add Students</span>
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="/dashboard/attendance" class="nav-link">
                                 <box-icon name="calendar-check" :animation="IconConfig.animation"
                                     :color="IconConfig.color" :size="IconConfig.size"></box-icon>
                                 <span>Student Attendance</span>
                             </router-link>
                         </li>
-                        <li class></li>
+                        <li class="nav-item">
+                            <router-link to="/dashboard/attendance/history" class="nav-link">
+                                <box-icon name="history" :animation="IconConfig.animation" :color="IconConfig.color"
+                                    :size="IconConfig.size"></box-icon>
+                                <span>Attendance History</span>
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
+                            <hr class="divider</hr>">
+                        </li>
                         <li class="nav-item">
                             <router-link to="/dashboard/account" class="nav-link">
                                 <box-icon name="user-detail" type="solid" :animation="IconConfig.animation"
@@ -54,7 +70,7 @@
                                 <span>Sign Out</span>
                             </router-link>
                         </li>
-                        <!-- <hr class="divider"> -->
+                        <hr class="divider">
                     </ul>
                 </div>
             </aside>
@@ -93,6 +109,7 @@ aside {
     background: var(--dashboard-color);
     display: block;
     margin: auto 0;
+    z-index: 999;
 
     hr {
         background: var(--dashboard-main);
@@ -140,14 +157,21 @@ aside {
 }
 
 @media screen and (max-width:768px) {
-    aside {
-        position: fixed;
-        top: 0;
-        left: 0;
-        display: none;
+    div {
 
-        &:is(.active) {
-            display: block;
+        z-index: 99999;
+
+        aside {
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: none;
+            z-index: 99999;
+
+            &:is(.active) {
+                display: block;
+                z-index: 99999;
+            }
         }
     }
 }
