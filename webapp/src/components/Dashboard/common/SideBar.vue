@@ -10,13 +10,13 @@
                     </div>
                     <hr class="divider">
                     <ul class="navbar-nav mt-3">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <router-link to="/dashboard" class="nav-link">
                                 <box-icon name="dashboard" type="solid" :animation="IconConfig.animation"
                                     :color="IconConfig.color" :size="IconConfig.size"></box-icon>
                                 <span>Dashboard</span>
                             </router-link>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <router-link to="/dashboard/add-section" class="nav-link">
                                 <box-icon name="building" :animation="IconConfig.animation" :color="IconConfig.color"
@@ -52,12 +52,12 @@
                                 <span>Attendance History</span>
                             </router-link>
                         </li>
-                        <li class="nav-item">
-                            <hr class="divider</hr>">
-                        </li>
+
+                        <hr class="divider</hr>">
+
                         <li class="nav-item">
                             <router-link to="/dashboard/account" class="nav-link">
-                                <box-icon name="user-detail" type="solid" :animation="IconConfig.animation"
+                                <box-icon name="user" type="solid" :animation="IconConfig.animation"
                                     :color="IconConfig.color" :size="IconConfig.size"></box-icon>
                                 <span>Account Details</span>
                             </router-link>

@@ -11,11 +11,24 @@
                             <thead>
                                 <tr>
                                     <th v-for=" (TableHeader, key) in TableHeaders" :key="key">{{ TableHeader }}</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td v-for=" (TableHeader, key) in TableHeaders" :key="key">{{ TableHeader }}</td>
+                                    <td>
+                                        <button class="btn btn-danger mx-2" v-if="delete_data">
+                                            <box-icon name='trash' :color="IconConfig.color"></box-icon>
+                                        </button>
+                                        <button class="btn btn-primary mx-2" v-if="edit_data">
+                                            <box-icon name='edit' :color="IconConfig.color"></box-icon>
+                                        </button>
+                                        <button class="btn btn-success mx-2" v-if="update_data">
+                                            <box-icon name='check' :color="IconConfig.color"></box-icon>
+                                        </button>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -42,7 +55,28 @@ export default {
             type: String,
             required: true
         },
+        delete_data: {
+            type: Boolean,
+            default: false,
+        },
+        edit_data: {
+            type: Boolean,
+            default: false
+        },
+        update_data: {
+            type: Boolean,
+            default: false
+        },
+    },
+    data() {
+        return {
+            IconConfig: {
+                color: '#ffff',
+                size: "bx-sm"
+            }
+        }
     }
+
 }
 </script>
 
@@ -55,13 +89,5 @@ export default {
 
 .row {
     overflow-x: hidden;
-
-    table {
-        tr {
-            th {
-                text-transform: uppercase;
-            }
-        }
-    }
 }
 </style>

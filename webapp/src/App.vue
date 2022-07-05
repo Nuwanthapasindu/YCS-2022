@@ -1,7 +1,5 @@
 <template>
   <router-view />
-  <!-- <transition mode="in-out" class="animate__animated animate__fadeIn">
-  </transition> -->
 </template>
 
 <style lang="scss">
@@ -38,8 +36,8 @@
   background: var(--dashboard-color);
 }
 
-body{
- max-width:100vw;
- overflow-x: hidden;
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-    <select class="form-select" aria-label="Default select example" @change="selected_section($event)">
-        <option v-for="(section, key) in sections" :key="key">{{ section }}</option>
+    <select class="form-select" aria-label="Default select example" @change="selected_class($event)">
+        <option v-for="(SectionClass, key) in classes" :key="key">{{ SectionClass }}</option>
     </select>
 </template>
 
@@ -8,13 +8,13 @@
 export default {
     data() {
         return {
-            sections: [
-                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'O/L'
+            classes: [
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
             ]
         }
     },
     methods: {
-        selected_section(e) {
+        selected_class(e) {
             this.$emit('selected_section', e.target.value);
         }
     }
