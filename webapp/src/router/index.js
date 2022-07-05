@@ -1,20 +1,62 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import LoginPage from '@/views/login/LoginPage'
+import DashboardIndex from '@/views/Dashboard/DashboardIndex'
+import AddSection from '@/views/Dashboard/sections/add/AddSection'
+import AddClasses from '@/views/Dashboard/Classses/add/AddClasses'
+import StudentAdd from '@/views/Dashboard/students/add/StudentAdd'
+import AttendanceMark from '@/views/Dashboard/attendance/AttendanceMark'
+import AttendanceHistory from '@/views/Dashboard/attendance/history/AttendanceHistory'
+import LogOut from '@/views/Dashboard/LogOut'
+import AccountDetails from '@/views/Dashboard/Account/AccountDetails'
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '/dashboard',
+    name: 'DashboardIndex',
+    component: DashboardIndex,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/dashboard/add-section',
+    name: 'AddSection',
+    component: AddSection,
+  },
+  {
+    path: '/dashboard/add-class',
+    name: 'AddClasses',
+    component: AddClasses,
+  },
+  {
+    path: '/dashboard/add-students',
+    name: 'StudentAdd',
+    component: StudentAdd,
+  },
+  {
+    path: '/dashboard/attendance',
+    name: 'AttendanceMark',
+    component: AttendanceMark,
+  },
+  {
+    path: '/dashboard/attendance/history',
+    name: 'AttendanceHistory',
+    component: AttendanceHistory,
+  },
+  {
+    path: '/dashboard/account',
+    name: 'AccountDetails',
+    component: AccountDetails,
+  },
+  {
+    path: '/dashboard/logout',
+    name: 'LogOut',
+    component: LogOut,
+  },
+  {
+    path: '/',
+    name: 'LoginPage',
+    component: LoginPage,
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
+
 ]
 
 const router = createRouter({
