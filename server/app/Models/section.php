@@ -14,8 +14,9 @@ class section extends Model
         'name',
         'additional_data'
     ];
-
     public function sections (){
         return $this->hasMany(UserClasses::class,'section_id','id');
     }
+
+
 }

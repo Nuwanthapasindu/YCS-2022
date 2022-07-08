@@ -6,12 +6,11 @@ import store from './store'
 import "bootstrap/dist/css/bootstrap.min.css"
 import 'animate.css';
 import "bootstrap"
-import axios from 'axios'
+import '@/config/axioConfig'
 import SideBar from '@/components/Dashboard/common/SideBar'
 import NavBar from '@/components/Dashboard/common/NavBar.vue'
 import FooterWidget from '@/components/Dashboard/common/FooterWidget'
-axios.defaults.baseURL = "http://wwww.localhost:8000/api/";
-
+import '@/store/auth/subscriber'
 
 
 const app = createApp(App);
@@ -21,3 +20,8 @@ app.mount('#app');
 app.component('side-bar', SideBar);
 app.component('NavBar', NavBar);
 app.component('dashboard-footer', FooterWidget);
+
+if (localStorage.getItem('token')) {
+
+    store.dispatch('auth/attempt', localStorage.getItem('token'));
+}

@@ -8,17 +8,25 @@ import AttendanceMark from '@/views/Dashboard/attendance/AttendanceMark'
 import AttendanceHistory from '@/views/Dashboard/attendance/history/AttendanceHistory'
 import LogOut from '@/views/Dashboard/LogOut'
 import AccountDetails from '@/views/Dashboard/Account/AccountDetails'
+import AccessDenied from '@/views/errors/AccessDenied'
+import UserComplete from '@/views/errors/UserComplete'
+
+import { admin } from '@/guards';
+
 
 const routes = [
+  // Dashboard URLs
   {
     path: '/dashboard',
     name: 'DashboardIndex',
     component: DashboardIndex,
+    beforeEnter: admin
   },
   {
     path: '/dashboard/add-section',
     name: 'AddSection',
     component: AddSection,
+    beforeEnter: admin
   },
   {
     path: '/dashboard/add-class',
@@ -50,12 +58,38 @@ const routes = [
     name: 'LogOut',
     component: LogOut,
   },
+
+
+  // Public Access Url
+
   {
     path: '/',
+    redirect: '/login',
+  },
+  {
+    path: '/login',
     name: 'LoginPage',
     component: LoginPage,
+
   },
-  { path: '/:pathMatch(.*)*', redirect: '/' },
+
+  //  Error Pages URL
+
+  {
+    path: '/access-denied',
+    name: 'AccessDenied',
+    component: AccessDenied,
+
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/login' },
+
+  //  Verify Pages URL
+  {
+    path: '/account-complete',
+    name: 'UserComplete',
+    component: UserComplete,
+
+  },
 
 ]
 

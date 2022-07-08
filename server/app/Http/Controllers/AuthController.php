@@ -59,6 +59,20 @@ class AuthController extends Controller
            endif;
     }
 
+   /**
+     * Authenticated User
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function role(){
+        $user =Auth::user();
+       if ($user->status == true):
+
+           return response()->json(['status'=>200,'role'=>$user->role,'completed'=>$user->completed]);
+       else:
+           return response()->json(['status'=>401,'message'=>'Your account has been blocked'],401);
+           endif;
+    }
+
     /**
      * Logout
      * @param Request $request

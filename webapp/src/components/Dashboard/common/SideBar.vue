@@ -10,42 +10,43 @@
                     </div>
                     <hr class="divider">
                     <ul class="navbar-nav mt-3">
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                             <router-link to="/dashboard" class="nav-link">
-                                <box-icon name="dashboard" type="solid" :animation="IconConfig.animation"
+                                <box-icon name="message-square" type="solid" :animation="IconConfig.animation"
                                     :color="IconConfig.color" :size="IconConfig.size"></box-icon>
+
                                 <span>Dashboard</span>
                             </router-link>
-                        </li> -->
-                        <li class="nav-item">
+                        </li>
+                        <li class="nav-item" v-if="user.role == 'admin'">
                             <router-link to="/dashboard/add-section" class="nav-link">
                                 <box-icon name="building" :animation="IconConfig.animation" :color="IconConfig.color"
                                     :size="IconConfig.size"></box-icon>
                                 <span>Add Sections</span>
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="user.role == 'section_head'">
                             <router-link to="/dashboard/add-class" class="nav-link">
                                 <box-icon name="layer-plus" :animation="IconConfig.animation" :color="IconConfig.color"
                                     :size="IconConfig.size"></box-icon>
                                 <span>Add Classes</span>
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="user.role == 'teacher'">
                             <router-link to="/dashboard/add-students" class="nav-link">
                                 <box-icon name="user-plus" :animation="IconConfig.animation" :color="IconConfig.color"
                                     :size="IconConfig.size"></box-icon>
                                 <span>Add Students</span>
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="user.role == 'teacher'">
                             <router-link to="/dashboard/attendance" class="nav-link">
                                 <box-icon name="calendar-check" :animation="IconConfig.animation"
                                     :color="IconConfig.color" :size="IconConfig.size"></box-icon>
                                 <span>Student Attendance</span>
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="user.role == 'teacher'">
                             <router-link to="/dashboard/attendance/history" class="nav-link">
                                 <box-icon name="history" :animation="IconConfig.animation" :color="IconConfig.color"
                                     :size="IconConfig.size"></box-icon>
@@ -79,8 +80,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import 'boxicons'
 export default {
+    computed: mapGetters({
+        user: 'auth/GET_USER'
+    }),
     props: {
         open: {
             type: Boolean,

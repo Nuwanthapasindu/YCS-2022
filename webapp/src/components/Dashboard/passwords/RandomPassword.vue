@@ -19,7 +19,7 @@ export default {
 
         return {
             pwd: null,
-            show: false,
+            show: true,
         }
     },
     methods: {

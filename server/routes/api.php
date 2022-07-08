@@ -27,6 +27,7 @@ Route::post('/auth/login',[AuthController::class,'login']);
         Route::prefix('/auth')->group(function (){
             Route::get('/me',[AuthController::class,'Auth_user']);
             Route::post('/logout',[AuthController::class,'logout']);
+            Route::get('/role',[AuthController::class,'role']);
         });
 
 // SECTION ROUTES

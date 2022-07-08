@@ -1,69 +1,17 @@
 <template>
     <main class="d-flex">
-        <side-bar :open="nav_active" />
+
         <!-- Dashboard  Contents -->
         <div class="container-fluid">
-            <!-- Nav Bar Start  -->
-            <NavBar @toggleNav="toggle" />
-            <!-- Nav Bar End  -->
             <!-- Form -->
-            <div class="container py-4 my-5">
-                <div class="row">
-                    <!-- Profile Details Start -->
-                    <div class="col-lg-4 col-md-12 mb-5">
-                        <div class="card shadow-sm">
-                            <div class="card-head profile_card">
-                                <img :src="user.profile_pic" class="profile_pic" alt="">
-                            </div>
 
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <!-- Profile Details Start -->
-                        <div class="card shadow-sm">
-                            <div class="card-body py-5">
-                                <div class="row py-5">
-                                    <div class="col-lg-12">
-                                        <table class="table table-borderless table-hover h-100">
-                                            <tr>
-                                                <th>Full Name </th>
-                                                <td>{{ user.full_name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Mobile Number </th>
-                                                <td>{{ user.mobile_number }}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <th>Address</th>
-                                                <td>{{ user.address }}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <th>Email</th>
-                                                <td>{{ user.email }}</td>
-
-                                            </tr>
-                                        </table>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
             <div class="container py-4 my-5">
                 <!-- Form -->
                 <div class="row">
                     <div class="col-lg-8 col-md-12 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-head">
-                                <!-- <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                                    class="profile_pic" alt=""> -->
-                                <h1>Update Profile</h1>
+                                <h1>Fill your account</h1>
                             </div>
                             <div class="card-body">
                                 <form class="py-2">
@@ -89,7 +37,16 @@
                                             <input type="email" class="form-control" />
                                         </div>
                                     </div>
-
+                                    <div class="row my-3">
+                                        <div class="col-lg-6 col-md-12 mb-4">
+                                            <label for="" class="form-label">Password</label>
+                                            <input type="password" class="form-control" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <label for="" class="form-label">Re Type Your Password</label>
+                                            <input type="password" class="form-control" />
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <button type="submit" class="btn">Update</button>
@@ -106,35 +63,6 @@
                 </div>
                 <!-- Form End -->
             </div>
-
-            <div class="container py-4 my-5">
-                <!-- Form -->
-                <div class="row">
-                    <div class="col-lg-12 mb-4">
-                        <div class="card shadow-sm">
-                            <div class="card-head">
-                                <h1>Update Password</h1>
-                            </div>
-                            <div class="card-body">
-                                <form class="py-2">
-                                    <div class="row my-3">
-                                        <div class="col-lg-6 col-md-12 mb-4">
-                                            <label for="" class="form-label">Password</label>
-                                            <input type="password" class="form-control" />
-                                        </div>
-                                        <div class="col-lg-6 col-md-12">
-                                            <label for="" class="form-label">Re Type Your Password</label>
-                                            <input type="password" class="form-control" />
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Form End -->
-            </div>
-            <dashboard-footer />
         </div>
         <!-- Dashboard  Contents -->
 
@@ -142,25 +70,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import ImageUploader from '@/components/Dashboard/uploads/ImageUploader.vue';
 export default {
-    computed: mapGetters({
-        user: 'auth/GET_USER'
-    }),
     data() {
         return {
             progress: false,
             upload_progress: 0,
-            nav_active: false,
-            // image: ''
-            image: "https://images.unsplash.com/photo-1484402628941-0bb40fc029e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+
+            image: ''
+
         };
     },
     methods: {
-        toggle(value) {
-            this.nav_active = value;
-        }
+
     },
     components: { ImageUploader }
 }

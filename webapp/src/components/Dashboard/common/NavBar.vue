@@ -10,11 +10,11 @@
             <span class="WelcomeText">
                 {{ WelcomeText }}
             </span>
+
             <div class="info">
-                <span> Nuwantha Pasindu</span>
+                <span> {{ user.full_name }}</span>
                 <div class="user">
-                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                        alt="" srcset="">
+                    <img :src="user.profile_pic" alt="Profile Picture" srcset="">
                 </div>
                 <div class="hamburger" @click="toggleNav()" :class="nav_active ? 'active' : ''">
                     <div class="bar"></div>
@@ -25,7 +25,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
+    computed: mapGetters({
+        user: 'auth/GET_USER'
+    }),
 
     data() {
         return {

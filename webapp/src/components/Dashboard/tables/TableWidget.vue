@@ -14,8 +14,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td v-for=" (TableHeader, key) in TableHeaders" :key="key">{{ TableHeader }}</td>
+                                <tr v-for=" (row, key) in TableData" :key="key">
+                                    <td>{{ row }}</td>
                                 </tr>
                             </tbody>
                         </table>

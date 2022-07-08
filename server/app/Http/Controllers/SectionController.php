@@ -113,6 +113,7 @@ class SectionController extends Controller
      */
     public function all(){
         $sections = section::where('id','!=','1')->get();
+
         return response()->json(['status'=>200,'sections'=>$sections],200);
     }
 
