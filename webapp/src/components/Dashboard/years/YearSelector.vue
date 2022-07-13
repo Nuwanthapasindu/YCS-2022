@@ -36,7 +36,6 @@ export default {
         },
         selected_year(e) {
             this.$emit('year', e.target.value);
-
         }
     },
 }

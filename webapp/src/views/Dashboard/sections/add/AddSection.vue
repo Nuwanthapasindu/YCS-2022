@@ -14,10 +14,21 @@
                                 <h1>Add Sections</h1>
                             </div>
                             <div class="card-body">
+                                <div class="alert alert-success" v-if="success">
+                                    {{ success }}
+                                </div>
+                                <div class="alert alert-danger  " v-for="(error, key) in errors" :key="key">
+                                    <ul>
+                                        <li v-for="(msg, key) in error" :key="key">
+                                            {{ msg }}
+                                        </li>
+                                    </ul>
+                                </div>
                                 <form>
                                     <div class="row mb-3">
                                         <div class="col-lg-6 col-md-12 my-2">
                                             <span class="label">Section Head Name</span>
+
                                             <input type="text" class="form-control" v-model="state.Section_head_name" />
                                         </div>
                                         <div class="col-lg-6 col-md-12 my-2">
@@ -63,8 +74,10 @@
 
                                         </div>
                                     </div>
+
                                     <div class="row mb-3">
-                                        <button type="submit" class="btn">Add Section</button>
+                                        <button type="submit" class="btn" @click.prevent="AddSection">Add
+                                            Section</button>
                                     </div>
 
                                 </form>
@@ -92,9 +105,10 @@
                                         <tbody>
                                             <tr v-for=" (row, key) in TableConfig.TableData" :key="key">
                                                 <td>{{ key + 1 }}</td>
-                                                <td>{{ row.name }}</td>
+                                                <td>{{ row.section }}</td>
                                                 <td>{{ row.additional_data }}</td>
-                                                <td><button class="btn btn-success">
+                                                <td><button class="btn btn-success" @click="get_details(row.id)"
+                                                        data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                         Details
                                                     </button></td>
                                             </tr>
@@ -107,9 +121,70 @@
                 </div>
             </div>
             <dashboard-footer />
+
         </div>
         <!-- Dashboard  Contents -->
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title heading" id="exampleModalLabel">Section Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Class Year</th>
+                                        <th>Class Name</th>
+                                        <th>Class Details</th>
+                                        <th>Profile Pic</th>
+                                        <th>Class Teacher</th>
+                                        <th>Class Teacher Address</th>
+                                        <th>Class Teacher Mobile Number</th>
+                                        <th>Class Teacher Email</th>
+                                        <th>Class Teacher Profile Status</th>
+                                        <th>Class Teacher Profile complete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for=" (row, key) in section_details" :key="key">
+                                        <td>{{ key + 1 }}</td>
+                                        <td>{{ row.get_class.year }}</td>
+                                        <td>{{ row.get_class.class_name }}</td>
+                                        <td>{{ row.get_class.other }}</td>
+                                        <td>{{ row.get_user.profile_pic }}</td>
+                                        <td>{{ row.get_user.full_name }}</td>
+                                        <td>{{ row.get_user.address }}</td>
+                                        <td>{{ row.get_user.mobile_number }}</td>
+                                        <td>{{ row.get_user.email }}</td>
+                                        <td>
+                                            <span class="badge bg-success"
+                                                v-if="row.get_user.status == true">Active</span>
+                                            <span class="badge bg-danger"
+                                                v-if="row.get_user.status == false">Block</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success"
+                                                v-if="row.get_user.completed == true">Completed</span>
+                                            <span class="badge bg-danger" v-if="row.get_user.completed == false">Not
+                                                Completed</span>
+                                        </td>
 
+                                        <!-- <td>Profile Pic</td> -->
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </template>
 
@@ -118,42 +193,28 @@ import SectionList from '@/components/Dashboard/sections/SectionList.vue';
 import YearSelector from '@/components/Dashboard/years/YearSelector.vue';
 import RandomPassword from '@/components/Dashboard/passwords/RandomPassword.vue';
 import axios from 'axios';
-import { reactive, computed } from 'vue';
-import useVuelidate from '@vuelidate/core'
-import { required, email, minLength, helpers } from '@vuelidate/validators'
+import { reactive } from 'vue';
 export default {
     created() {
         this.sections();
     },
     setup() {
         const state = reactive({
-            Section_head_name: 'hnpkdias@gmail.com',
+            Section_head_name: '',
             section: '',
-            password: '',
-            year: '',
             email: '',
             other_details: '',
         });
 
-        const rules = computed(() => {
-            return {
-                email: {
-                    required: helpers.withMessage('The email field is required', required),
-                    email: helpers.withMessage('The email you typed is not a valid email address', email),
-                },
-                password: {
-                    required: helpers.withMessage('The password field is required', required),
-                    minLength: helpers.withMessage('The mobile number must be at least 9 characters', minLength(8)),
-                },
 
-            }
-        })
 
-        const v$ = useVuelidate(rules, state);
-        return { state, v$ }
+        return { state }
     },
     data() {
         return {
+            errors: null,
+            success: null,
+            section_details: null,
             nav_active: false,
             TableConfig: {
                 TableData: {},
@@ -167,7 +228,9 @@ export default {
             this.nav_active = value;
         },
         selected_year(year) {
-            this.state.year = year;
+
+            this.state.Section_year = year;
+
         },
         selected_section(section) {
             this.state.section = section;
@@ -181,9 +244,29 @@ export default {
             }).catch(e => {
                 console.log(e);
             })
+        },
+        AddSection() {
+            axios.post('sections/add', this.state).then(response => {
+                if (response.data.status == 201) {
+
+                    this.success = response.data.Message;
+                    this.sections()
+                }
+            }).catch(e => {
+                this.errors = e.response.data.message;
+            })
+        },
+        get_details(id) {
+            axios.get('sections/details/' + id).then(response => {
+                this.section_details = response.data.Section_classes;
+                console.log(response.data.Section_classes);
+            }).catch(e => {
+                console.log(e);
+
+            })
         }
     },
-    components: { SectionList, YearSelector, RandomPassword }
+    components: { SectionList, YearSelector, RandomPassword, }
 }
 </script>
 
@@ -193,6 +276,12 @@ main {
     min-height: 100vh;
     height: auto;
     overflow-x: hidden;
+}
+
+.heading {
+    font-weight: 800;
+    color: var(--dashboard-color);
+    text-transform: uppercase;
 }
 
 .container {
@@ -219,12 +308,6 @@ main {
             }
 
 
-        }
-
-        .heading {
-            font-weight: 800;
-            color: var(--dashboard-color);
-            text-transform: uppercase;
         }
 
         .card-body {

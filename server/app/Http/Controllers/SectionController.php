@@ -17,6 +17,7 @@ use Webpatser\Uuid\Uuid;
 
 class SectionController extends Controller
 {
+
     public function __construct()
     {
 
@@ -36,9 +37,9 @@ class SectionController extends Controller
      */
     public function add(Request $request){
         $rules = [
-            'name'=>'required|string|unique:sections',
+            'section'=>'required|string|unique:sections',
             'year'=>'numeric',
-            'full_name'=>'required|string',
+            'Section_head_name'=>'required|string',
             'password' =>'required|min:8',
             'email' =>'required|email|unique:users'
         ];
@@ -53,7 +54,8 @@ class SectionController extends Controller
         $section_uuid = Uuid::generate()->string;
         $section = new section();
         $section->uuid =$section_uuid;
-        $section->name =$request->name;
+        $section->section =$request->section;
+        $section->additional_data =$request->other_details;
         if(!$section->save()):
             return response()->json(['message'=>'There was an error creating a school Section on our system'],400);
            else:
@@ -65,7 +67,7 @@ class SectionController extends Controller
         $user = new User();
         $user->uuid = $user_uuid;
         $user->email = $request->email;
-        $user->full_name = $request->full_name;
+        $user->full_name = $request->Section_head_name;
         $user->password = Hash::make($request->password);
         $user->role = roles::SECTION_HEAD;
         $user->status = true;
@@ -97,11 +99,11 @@ class SectionController extends Controller
 //        Assign to user class
         $user_class = new UserClasses();
         $user_class->user_id = $user_id;
-        $user_class->section_id = $user_id;
+        $user_class->section_id = $section_id;
         $user_class->class_id = $class_id;
         $user_class->save();
 
-        emailController::new_account_notify($request->email,$request->full_name,roles::SECTION_HEAD->value);
+        emailController::new_account_notify($request->email,$request->full_name,$request->password,roles::SECTION_HEAD->value);
         return response()->json(['status'=>201,'Message'=> 'Successfully Created'],201);
 
 
@@ -112,9 +114,20 @@ class SectionController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function all(){
-        $sections = section::where('id','!=','1')->get();
+        $sections = section::where('id','!=','1')->orderBy('id','desc')->get();
 
         return response()->json(['status'=>200,'sections'=>$sections],200);
     }
+
+    public function sectionData($id){
+        $sections = UserClasses::where('section_id',$id,)->get();
+        foreach ($sections as $section):
+            $section->get_user;
+            $section->get_class;
+//            $section->section;
+            endforeach;
+        return response()->json(['status'=>200,'Section_classes'=>$sections],200);
+    }
+
 
 }

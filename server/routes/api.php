@@ -7,6 +7,7 @@ use \App\Http\Controllers\SectionController;
 use \App\Http\Controllers\SectionHeadController;
 use \App\Http\Controllers\SectionClassesController;
 use \App\Http\Controllers\TeacherController;
+use \App\Http\Controllers\ProfileCompleteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,13 +28,18 @@ Route::post('/auth/login',[AuthController::class,'login']);
         Route::prefix('/auth')->group(function (){
             Route::get('/me',[AuthController::class,'Auth_user']);
             Route::post('/logout',[AuthController::class,'logout']);
-            Route::get('/role',[AuthController::class,'role']);
+            Route::post('/profile/{uuid}',[AuthController::class,'profile']);
+            Route::post('/password-update/{uuid}',[AuthController::class,'PasswordUpdate']);
+            Route::post('/complete/{uuid}',[ProfileCompleteController::class,'complete']);
+            Route::post('/profile-pic/{uuid}',[ProfileCompleteController::class,'profile_pic']);
+
         });
 
 // SECTION ROUTES
         Route::prefix('/sections')->group(function (){
             Route::post('/add',[SectionController::class,'add']);
             Route::get('/all',[SectionController::class,'all']);
+            Route::get('/details/{id}',[SectionController::class,'sectionData']);
         });
 
 // CLASS TEACHER ROUTES

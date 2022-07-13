@@ -11,7 +11,7 @@ class section extends Model
 
     protected $fillable = [
         'uuid',
-        'name',
+        'section',
         'additional_data'
     ];
     public function sections (){

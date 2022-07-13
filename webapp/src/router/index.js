@@ -10,8 +10,9 @@ import LogOut from '@/views/Dashboard/LogOut'
 import AccountDetails from '@/views/Dashboard/Account/AccountDetails'
 import AccessDenied from '@/views/errors/AccessDenied'
 import UserComplete from '@/views/errors/UserComplete'
+import PasswordUpdate from '@/views/Dashboard/Account/PasswordUpdate'
 
-import { admin } from '@/guards';
+import { admin, sectionHead, teacher, common, dashboard } from '@/guards';
 
 
 const routes = [
@@ -20,7 +21,7 @@ const routes = [
     path: '/dashboard',
     name: 'DashboardIndex',
     component: DashboardIndex,
-    beforeEnter: admin
+    beforeEnter: dashboard
   },
   {
     path: '/dashboard/add-section',
@@ -32,31 +33,43 @@ const routes = [
     path: '/dashboard/add-class',
     name: 'AddClasses',
     component: AddClasses,
+    beforeEnter: sectionHead
   },
   {
     path: '/dashboard/add-students',
     name: 'StudentAdd',
     component: StudentAdd,
+    beforeEnter: teacher
   },
   {
     path: '/dashboard/attendance',
     name: 'AttendanceMark',
     component: AttendanceMark,
+    beforeEnter: teacher
   },
   {
     path: '/dashboard/attendance/history',
     name: 'AttendanceHistory',
     component: AttendanceHistory,
+    beforeEnter: teacher
   },
   {
     path: '/dashboard/account',
     name: 'AccountDetails',
     component: AccountDetails,
+    beforeEnter: dashboard
+  },
+  {
+    path: '/dashboard/passwords',
+    name: 'PasswordUpdate',
+    component: PasswordUpdate,
+    beforeEnter: dashboard
   },
   {
     path: '/dashboard/logout',
     name: 'LogOut',
     component: LogOut,
+    beforeEnter: dashboard
   },
 
 
@@ -88,6 +101,7 @@ const routes = [
     path: '/account-complete',
     name: 'UserComplete',
     component: UserComplete,
+    beforeEnter: common,
 
   },
 

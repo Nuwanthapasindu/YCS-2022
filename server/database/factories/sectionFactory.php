@@ -19,7 +19,7 @@ class sectionFactory extends Factory
     {
         return [
             'uuid'=>Uuid::generate()->string,
-            'name'=>'*',
+            'section'=>'*',
             'additional_data'=> "ADMIN CLASS"
         ];
     }

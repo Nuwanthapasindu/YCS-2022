@@ -73,8 +73,8 @@ export default {
 
     setup() {
         const state = reactive({
-            email: 'hnpkdias@gmail.com',
-            password: '12345678',
+            email: 'nuwanthadias@gmail.com',
+            password: 'aG{|w!G?Rq',
             show: false,
 
         });
@@ -87,7 +87,7 @@ export default {
                 },
                 password: {
                     required: helpers.withMessage('The password field is required', required),
-                    minLength: helpers.withMessage('The mobile number must be at least 9 characters', minLength(8)),
+                    minLength: helpers.withMessage('The password must be at least 9 characters', minLength(8)),
                 },
 
             }

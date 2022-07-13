@@ -1,7 +1,7 @@
 <template>
     <div class="row px-2">
         <div class="col-lg-6 col-md-12 mb-3">
-            <input :type="show ? 'text' : 'password'" readonly disabled class="form-control" v-model="pwd" />
+            <input :type="show ? 'text' : 'password'" readonly disabled class="form-control" v-model="state.pwd" />
         </div>
 
         <div class="col-lg-6 col-md-12">
@@ -13,12 +13,28 @@
 </template>
 
 <script>
+import { reactive, computed } from 'vue';
+import useVuelidate from '@vuelidate/core'
+import { required, minLength, helpers } from '@vuelidate/validators'
 export default {
+    setup() {
+        const state = reactive({
+            pwd: ''
+        })
+        const rules = computed(() => {
+            return {
+                pwd: {
+                    required: helpers.withMessage('The password is required', required),
+                    minLength: helpers.withMessage('The password must be 8 charactors', minLength(8)),
+                }
+            }
+        })
+
+        const v$ = useVuelidate(rules, state);
+        return { state, v$ }
+    },
     data() {
-
-
         return {
-            pwd: null,
             show: true,
         }
     },
@@ -30,8 +46,9 @@ export default {
             for (var i = 0, n = charset.length; i < length; ++i) {
                 retVal += charset.charAt(Math.floor(Math.random() * n));
             }
-            var generator = retVal.toString();
-            this.pwd = generator
+            let generator = retVal.toString();
+            this.state.pwd = generator;
+
             this.$emit('generator', generator);
         }
     }

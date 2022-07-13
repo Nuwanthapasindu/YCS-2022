@@ -3,7 +3,7 @@ import router from '@/router';
 export default {
     namespaced: true,
     state: {
-        user: null,
+        user: '',
         token: null,
     },
     getters: {
@@ -38,19 +38,18 @@ export default {
                 commit('SET_TOKEN', token)
                 try {
 
-                    const response = await axios.get('/auth/me', token);
+                    let response = await axios.get('/auth/me');
                     commit('SET_AUTH_USER', response.data.user);
                     localStorage.setItem('role', response.data.user.role)
                     localStorage.setItem('completed', response.data.user.completed)
-
-
-
 
 
                 } catch (error) {
                     commit('SET_TOKEN', null)
                     commit('SET_AUTH_USER', null);
                     localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('completed');
                     router.push('/');
                 }
 
@@ -60,6 +59,19 @@ export default {
                 return;
             }
 
+        },
+
+        async logout({ commit }) {
+            let response = await axios.post('auth/logout');
+            if (response.data.status == 200) {
+
+                commit('SET_TOKEN', null)
+                commit('SET_AUTH_USER', null);
+                localStorage.removeItem('token');
+                localStorage.removeItem('role');
+                localStorage.removeItem('completed');
+                router.replace('/');
+            }
         },
 
     },
