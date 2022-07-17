@@ -173,7 +173,7 @@ export default {
                 }).then(response => {
                     this.state.successMessage = response.data.message
                     this.attempt(localStorage.getItem('token'))
-                    router.replace('/dashboard');
+                    router.push('/dashboard');
                 }).catch(e => {
                     this.state.errorMessages = e.response.data.message
                 })

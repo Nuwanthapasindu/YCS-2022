@@ -10,7 +10,6 @@ import LogOut from '@/views/Dashboard/LogOut'
 import AccountDetails from '@/views/Dashboard/Account/AccountDetails'
 import AccessDenied from '@/views/errors/AccessDenied'
 import UserComplete from '@/views/errors/UserComplete'
-import PasswordUpdate from '@/views/Dashboard/Account/PasswordUpdate'
 
 import { admin, sectionHead, teacher, common, dashboard } from '@/guards';
 
@@ -57,12 +56,6 @@ const routes = [
     path: '/dashboard/account',
     name: 'AccountDetails',
     component: AccountDetails,
-    beforeEnter: dashboard
-  },
-  {
-    path: '/dashboard/passwords',
-    name: 'PasswordUpdate',
-    component: PasswordUpdate,
     beforeEnter: dashboard
   },
   {

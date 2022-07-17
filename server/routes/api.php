@@ -46,6 +46,9 @@ Route::post('/auth/login',[AuthController::class,'login']);
         Route::prefix('/classes-teacher')->group(function (){
             Route::post('/add',[SectionHeadController::class,'add']);
             Route::get('/all',[SectionHeadController::class,'all']);
+            Route::get('/details/{id}',[SectionHeadController::class,'classData']);
+            Route::get('/block/{id}',[SectionHeadController::class,'block']);
+            Route::get('/unblock/{id}',[SectionHeadController::class,'unblock']);
         });
 
 // CLASSES ROUTES
@@ -56,8 +59,9 @@ Route::post('/auth/login',[AuthController::class,'login']);
 // CLASS TEACHER ROUTES
         Route::prefix('/student')->group(function (){
             Route::post('/add',[TeacherController::class,'add']);
-            Route::get('/attendence/{uid}',[TeacherController::class,'attendance']);
+            Route::get('/attendance/{uid}',[TeacherController::class,'attendance']);
             Route::get('/all',[TeacherController::class,'all']);
+            Route::get('/attendance',[TeacherController::class,'allStudents']);
             Route::get('/edit/{uid}',[TeacherController::class,'edit']);
             Route::put('/update/{uid}',[TeacherController::class,'update']);
             Route::delete('/delete/{uid}',[TeacherController::class,'drop']);

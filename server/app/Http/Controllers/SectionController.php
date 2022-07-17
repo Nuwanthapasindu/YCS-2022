@@ -67,6 +67,7 @@ class SectionController extends Controller
         $user = new User();
         $user->uuid = $user_uuid;
         $user->email = $request->email;
+        $user->profile_pic = 'http://localhost:8000/storage/profilePictures/user.jpg';
         $user->full_name = $request->Section_head_name;
         $user->password = Hash::make($request->password);
         $user->role = roles::SECTION_HEAD;
@@ -119,6 +120,10 @@ class SectionController extends Controller
         return response()->json(['status'=>200,'sections'=>$sections],200);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sectionData($id){
         $sections = UserClasses::where('section_id',$id,)->get();
         foreach ($sections as $section):

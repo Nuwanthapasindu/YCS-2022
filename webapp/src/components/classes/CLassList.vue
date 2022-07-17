@@ -6,6 +6,7 @@
 
 <script>
 export default {
+
     data() {
         return {
             classes: [
@@ -15,7 +16,7 @@ export default {
     },
     methods: {
         selected_class(e) {
-            this.$emit('selected_section', e.target.value);
+            this.$emit('selected_class', e.target.value);
         }
     }
 }

@@ -68,13 +68,6 @@
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/dashboard/passwords" class="nav-link">
-                                <box-icon name="key" type="solid" :animation="IconConfig.animation"
-                                    :color="IconConfig.color" :size="IconConfig.size"></box-icon>
-                                <span>Change Password</span>
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
                             <router-link to="/dashboard/logout" class="nav-link">
                                 <box-icon name="exit" :color="IconConfig.color" :size="IconConfig.size">
                                 </box-icon>

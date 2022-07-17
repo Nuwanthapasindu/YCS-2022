@@ -14,25 +14,29 @@
                                 <h1>Add Classes</h1>
                             </div>
                             <div class="card-body">
+
+                                <div class="alert alert-danger  " v-for="(error, key) in errors" :key="key">
+                                    <ul>
+                                        <li v-for="(msg, key) in error" :key="key">
+                                            {{ msg }}
+                                        </li>
+                                    </ul>
+                                </div>
                                 <form>
                                     <div class="row mb-3">
                                         <div class="col-lg-6 col-md-12 my-2">
                                             <span class="label">Class Teacher</span>
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" v-model="state.teacher_name" />
                                         </div>
                                         <div class="col-lg-6 col-md-12 my-2">
-                                            <span class="label">Year</span>
-                                            <YearSelector @year="selected_year" />
+                                            <span class="label">Class Teacher Email</span>
+                                            <input type="email" class="form-control" v-model="state.email" />
                                         </div>
 
                                     </div>
 
                                     <div class="row mb-3">
-                                        <div class="col-lg-6 col-md-12 my-2">
-                                            <span class="label">Class Teacher Email</span>
-                                            <input type="email" class="form-control" />
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 my-2">
+                                        <div class="col-lg-12 col-md-12 my-2">
                                             <span class="label">Temporary Password</span>
                                             <RandomPassword @generator="generator" />
                                         </div>
@@ -42,7 +46,7 @@
                                         <div class="col-lg-5 col-md-12 my-2">
 
                                             <span class="label">Select the Class</span>
-                                            <CLassList @selected_section="selected_section" />
+                                            <CLassList @selected_class="selected_class" />
                                         </div>
                                         <span
                                             class="text-center d-flex align-items-center justify-contents-center col-lg-2 col-md-12">
@@ -50,26 +54,34 @@
                                         </span>
                                         <div class="col-lg-5 col-md-12 my-2">
                                             <span class="label">Type The Class</span>
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" v-model="state.class_name" />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-lg-12 col-md-12 my-2">
 
                                             <span class="label">Other Details</span>
-                                            <textarea class="form-control py-4 px-4 mt-3"></textarea>
+                                            <textarea class="form-control py-4 px-4 mt-3"
+                                                v-model="state.other"></textarea>
 
                                         </div>
 
 
                                     </div>
-                                    <button type="submit" class="btn">Add Class</button>
+                                    <button type="submit" class="btn" @click.prevent="HandleSubmit()"
+                                        v-if="!sending">Add Class</button>
+
+                                    <loader v-if="sending" />
+                                    <div class="alert alert-success mt-2" v-if="success">
+                                        {{ success }}
+
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <TableWidget :TableData="TableConfig.TableData" :TableHeaders="TableConfig.TableHeaders"
+                <ClassTable :TableData="TableConfig.TableData" :TableHeaders="TableConfig.TableHeaders"
                     :Heading="TableConfig.Heading" />
             </div>
             <dashboard-footer />
@@ -80,39 +92,85 @@
 </template>
 
 <script>
-import YearSelector from '@/components/Dashboard/years/YearSelector.vue';
 import RandomPassword from '@/components/Dashboard/passwords/RandomPassword.vue';
-import TableWidget from '@/components/Dashboard/tables/TableWidget.vue';
 import CLassList from '@/components/classes/CLassList.vue';
+import loader from '@/components/loader/LoaderView'
+import axios from 'axios';
+import ClassTable from '@/components/Dashboard/tables/classes/ClassTable.vue';
+import { reactive } from 'vue';
+
+
 export default {
+    created() {
+        this.get_data();
+    },
+    setup() {
+        const state = reactive({
+
+            teacher_name: '',
+            email: '',
+            password: '',
+            class_name: '',
+            other: '',
+
+        });
+
+
+
+        return { state }
+    },
     data() {
         return {
             nav_active: false,
-            year: '',
-            section: '',
-            password: '',
+            sending: false,
+            errors: null,
+            success: null,
             TableConfig: {
                 TableData: {},
-                TableHeaders: ['#', 'Class', 'Class Teacher', 'mobile number', 'address', 'email', 'profile picture'],
-                Heading: "Classes"
+                TableHeaders: ['#', 'Class', 'year', 'Other'],
+                Heading: "Classes",
+
             }
         };
     },
     methods: {
+        get_data() {
+            axios.get('classes-teacher/all').then(response => {
+                this.TableConfig.TableData = response.data.classes
+            }).catch(e => {
+                console.log(e);
+            })
+        },
         toggle(value) {
             this.nav_active = value;
         },
-        selected_year(year) {
-            this.year = year;
-        },
-        selected_section(section) {
-            this.section = section;
+
+        selected_class(SelectedClass) {
+            this.state.class_name = SelectedClass;
+
         },
         generator(password) {
-            this.password = password;
-        }
+            this.state.password = password;
+        },
+        HandleSubmit() {
+            this.sending = true,
+                axios.post('classes-teacher/add', this.state)
+                    .then(res => {
+                        this.success = res.data.Message
+                        this.errors = null;
+                        this.get_data();
+                        this.sending = false;
+
+                    })
+                    .catch(err => {
+                        this.errors = err.response.data.message;
+                        this.success = null;
+                        this.sending = false;
+                    })
+
+        },
     },
-    components: { YearSelector, RandomPassword, TableWidget, CLassList }
+    components: { RandomPassword, CLassList, ClassTable, loader }
 }
 </script>
 
@@ -122,6 +180,7 @@ main {
     min-height: 100vh;
     height: auto;
     overflow-x: hidden;
+
 }
 
 .container {

@@ -37,7 +37,7 @@ class SectionHeadController extends Controller
      */
     public function add(Request $request){
         $rules = [
-            'full_name'=>'required|string',
+            'teacher_name'=>'required|string',
             'password' =>'required|min:8',
             'email' =>'required|email|unique:users',
             'class_name' =>'required|string|unique:section_classes',
@@ -54,7 +54,8 @@ class SectionHeadController extends Controller
         $user = new User();
         $user->uuid = $user_uuid;
         $user->email = $request->email;
-        $user->full_name = $request->full_name;
+        $user->profile_pic = 'http://localhost:8000/storage/profilePictures/user.jpg';
+        $user->full_name = $request->teacher_name;
         $user->password = Hash::make($request->password);
         $user->role = roles::TEACHER;
         $user->status = true;
@@ -88,19 +89,67 @@ class SectionHeadController extends Controller
         $user_class->section_id = Auth::user()->get_section->section_id;
         $user_class->class_id = $class_id;
         $user_class->save();
-//       emailController::new_account_notify($request->email,$request->full_name,$request->password,Auth::user()->role->value);
+        emailController::new_account_notify($request->email,$request->full_name,$request->password,roles::TEACHER->value);
         return response()->json(['status'=>201,'Message'=> 'Successfully Created'],201);
 
 
     }
 
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function all(){
+
         $classes = sectionClasses::where([
+            ['section_id','=',Auth::user()->get_section->section_id],
             ['class_name','!=','*'],
             ['year','=',Auth::user()->get_section->year]
         ])->get();
-
         return response()->json(['status'=>200,'classes'=>$classes],200);
+    }
+
+
+    /**
+     * classData
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function classData($id){
+        $rulles = [
+            'section_id' => Auth::user()->get_section->section_id,
+            'class_id' => $id,
+        ];
+        $sections = UserClasses::where($rulles)->orderBy('id','DESC')->get();
+        foreach ($sections as $section):
+            $section->get_user;
+            $section->get_class;
+//            $section->section;
+        endforeach;
+        return response()->json(['status'=>200,'Section_classes'=>$sections],200);
+    }
+
+    /**
+     * @param User $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function block(User $id){
+
+        $id->status = false;
+        $id->update();
+        return response()->json(['status'=>'Blocked'],200);
+    }
+
+    /**
+     * @param User $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unblock(User $id){
+//        $user = User::where('uuid','=',$id)->first();
+        $id->status = true;
+        $id->update();
+        return response()->json(['status'=>'UnBlocked'],200);
+
     }
 
 

@@ -11,6 +11,7 @@ use App\Models\studentClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Webpatser\Uuid\Uuid;
 
@@ -81,11 +82,42 @@ class TeacherController extends Controller
     }
 
     /**
-     * All Students
+     * Paginated Students
      * @return \Illuminate\Http\JsonResponse
      */
     public function all(){
-        $students = student::all();
+        $rules=[
+            'section_id' => Auth::user()->get_user_class->section_id,
+            'class_id' => Auth::user()->get_user_class->class_id,
+        ];
+        $students = studentClass::where($rules)->paginate(5);
+        foreach ($students as $student):
+        $student->student;
+//        $student->section;
+//        $student->student_class;
+        endforeach;
+
+
+        return response()->json(['status'=>200,'Students'=> $students],200);
+    }
+
+    /**
+     * All Students
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function allStudents(){
+        $rules=[
+            'section_id' => Auth::user()->get_user_class->section_id,
+            'class_id' => Auth::user()->get_user_class->class_id,
+        ];
+        $students = studentClass::where($rules)->paginate(5);
+        foreach ($students as $student):
+        $student->student;
+//        $student->section;
+//        $student->student_class;
+        endforeach;
+
+
         return response()->json(['status'=>200,'Students'=> $students],200);
     }
 
@@ -109,7 +141,8 @@ class TeacherController extends Controller
      */
     public function drop($uid){
         if (Uuid::validate($uid)):
-            $student = student::where('uuid',$uid)->delete();
+//            $student = student::where('uuid',$uid)->delete();
+        DB::table('students')->where('uuid',$uid)->delete();
             return response()->json(['status'=>200,'message'=>'Deleted Successfully']);
         endif;
     }
@@ -124,15 +157,18 @@ class TeacherController extends Controller
         if (Uuid::validate($uid)):
 
             $rules = [
-                'admission_number'=>'unique:students|numeric',
-                'full_name'=>'string|unique:students',
-                'mobile_number'=>'string|unique:students|min:9',
-                'address'=>'string',
-                'mother_name'=>'string',
-                'father_name'=>'string'
+                'admission_number'=>'nullable|unique:students|numeric',
+                'full_name'=>'nullable|string|unique:students',
+                'mobile_number'=>'nullable|string|unique:students|min:9',
+                'address'=>'nullable|string',
+                'mother_name'=>'nullable|string',
+                'father_name'=>'nullable|string'
             ];
 //        Validating
             $validator = Validator::make($request->all(),$rules);
+            if ($validator->fails()):
+                return response()->json(['status'=>400,'message'=>$validator->errors()],400);
+            endif;
             $student = student::where('uuid',$uid)->first();
             if ($request->admission_number !== null):
                 $student->admission_number = $request->admission_number;

@@ -7,38 +7,13 @@
             <NavBar @toggleNav="toggle" />
             <!-- Nav Bar End  -->
             <div class="container">
-
-            
                 <div class="row my-5">
                     <div class="col-lg-12 col-md-12">
                         <div class="card shadow w-100">
                             <div class="card-head">
                                 <h1>Student Attendance</h1>
                             </div>
-                            <div class="card-body">
-
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="3"></th>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Student Name</th>
-                                                <th>Attendance</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Hanwellage Nuwantha Pasindu Kavishan Dias</td>
-                                                <td><input type="checkbox" /></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            <AttendenceTable />
                         </div>
                     </div>
                 </div>
@@ -53,11 +28,13 @@
 
 <script>
 import TableWidget from '@/components/Dashboard/tables/TableWidget.vue';
+import AttendenceTable from '@/components/Dashboard/tables/students/attendence/AttendenceTable.vue';
 export default {
     data() {
         return {
             nav_active: false,
             TableHeaders: ['#', 'Student Name', 'Attendance', 'time'],
+
         };
     },
     methods: {
@@ -65,7 +42,7 @@ export default {
             this.nav_active = value;
         }
     },
-    components: { TableWidget }
+    components: { TableWidget, AttendenceTable }
 }
 </script>
 
@@ -100,17 +77,7 @@ main {
             }
         }
 
-        .card-body {
-            table.table {
-                tr {
-                    input[type="checkbox"] {
-                        width: 20px;
-                        height: 20px;
-                        accent-color: var(--dashboard-main);
-                    }
-                }
-            }
-        }
+
     }
 }
 </style>

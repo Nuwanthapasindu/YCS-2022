@@ -27,7 +27,7 @@ export default {
             var past_year = new Date(year - 1, month, day);
             this.years.push(past_year.getFullYear())
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 2; i++) {
 
                 var next_years = new Date(year + i, month, day);
                 this.years.push(next_years.getFullYear())

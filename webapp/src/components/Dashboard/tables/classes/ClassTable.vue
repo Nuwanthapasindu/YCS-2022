@@ -61,7 +61,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr v-for=" (row, key) in class_details" :key="key">
+                                        <td>{{ key + 1 }}</td>
+                                        <td>{{ row.get_class.year }}</td>
+                                        <td>{{ row.get_class.class_name }}</td>
+                                        <td>{{ row.get_class.other }}</td>
+                                        <td><img :src="row.get_user.profile_pic" alt="Profile Picture"
+                                                class="profilePic"></td>
+                                        <td>{{ row.get_user.full_name }}</td>
+                                        <td>{{ row.get_user.address }}</td>
+                                        <td>{{ row.get_user.mobile_number }}</td>
+                                        <td>{{ row.get_user.email }}</td>
+                                        <td>
+                                            <span class="badge bg-success"
+                                                v-if="row.get_user.status == true">Active</span>
 
+                                            <button class="btn d-block my-2" v-if="row.get_user.status == true"
+                                                @click.prevent="block(row.get_user.id)">Block
+                                                User</button>
+
+                                            <span class="badge bg-danger"
+                                                v-if="row.get_user.status == false">Block</span>
+                                            <button class="btn d-block my-2" v-if="row.get_user.status == false"
+                                                @click.prevent="unblock(row.get_user.id)">UnBlock
+                                                User</button>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success"
+                                                v-if="row.get_user.completed == true">Completed</span>
+                                            <span class="badge bg-danger" v-if="row.get_user.completed == false">Not
+                                                Completed</span>
+                                        </td>
+
+
+
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -77,9 +111,7 @@
 import axios from 'axios';
 export default {
     props: {
-        url: {
-            type: String,
-        },
+
         TableData: {
             type: Object,
             required: true
@@ -100,9 +132,28 @@ export default {
     },
     methods: {
         get_details(id) {
-            axios.get(this.url + id).then(response => {
-                // this.class_details = response.data.Section_classes;
-                console.log(response.data);
+            axios.get('classes-teacher/details/' + id).then(response => {
+                this.class_details = response.data.Section_classes;
+            }).catch(e => {
+                console.log(e);
+
+            })
+        },
+        unblock(id) {
+            axios.get('classes-teacher/unblock/' + id).then(response => {
+                if (response.data.status == "UnBlocked") {
+                    this.get_details(id)
+                }
+            }).catch(e => {
+                console.log(e);
+
+            })
+        },
+        block(id) {
+            axios.get('classes-teacher/block/' + id).then(response => {
+                if (response.data.status == "Blocked") {
+                    this.get_details(id)
+                }
             }).catch(e => {
                 console.log(e);
 

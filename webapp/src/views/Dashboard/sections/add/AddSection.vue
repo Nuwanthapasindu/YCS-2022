@@ -76,7 +76,8 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <button type="submit" class="btn" @click.prevent="AddSection">Add
+                                        <button type="submit" class="btn" @click.prevent="AddSection"
+                                            v-if="!sending">Add
                                             Section</button>
                                     </div>
 
@@ -157,7 +158,8 @@
                                         <td>{{ row.get_class.year }}</td>
                                         <td>{{ row.get_class.class_name }}</td>
                                         <td>{{ row.get_class.other }}</td>
-                                        <td>{{ row.get_user.profile_pic }}</td>
+                                        <td><img :src="row.get_user.profile_pic" alt="Profile Picture"
+                                                class="profilePic"></td>
                                         <td>{{ row.get_user.full_name }}</td>
                                         <td>{{ row.get_user.address }}</td>
                                         <td>{{ row.get_user.mobile_number }}</td>
@@ -214,6 +216,7 @@ export default {
         return {
             errors: null,
             success: null,
+            sending: false,
             section_details: null,
             nav_active: false,
             TableConfig: {
@@ -246,11 +249,13 @@ export default {
             })
         },
         AddSection() {
+            this.sending = true;
             axios.post('sections/add', this.state).then(response => {
                 if (response.data.status == 201) {
 
                     this.success = response.data.Message;
                     this.sections()
+                    this.sending = false;
                 }
             }).catch(e => {
                 this.errors = e.response.data.message;
@@ -259,7 +264,6 @@ export default {
         get_details(id) {
             axios.get('sections/details/' + id).then(response => {
                 this.section_details = response.data.Section_classes;
-                console.log(response.data.Section_classes);
             }).catch(e => {
                 console.log(e);
 
@@ -276,6 +280,14 @@ main {
     min-height: 100vh;
     height: auto;
     overflow-x: hidden;
+
+    .modal {
+        .profilePic {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    }
 }
 
 .heading {

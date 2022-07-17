@@ -1,43 +1,38 @@
 <template>
-    <div class="container py-4 my-5">
-        <!-- Form -->
-        <div class="row">
-            <div class="col-lg-12 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-head">
-                        <h1>Update Password</h1>
+    <div class="col-lg-12 col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-head">
+                <h1>Update Password</h1>
+            </div>
+            <div class="card-body">
+                <form class="py-2">
+                    <div class="alert alert-success" v-if="state.successMessage">
+                        {{ state.successMessage }}
                     </div>
-                    <div class="card-body">
-                        <form class="py-2">
-                            <div class="alert alert-success" v-if="state.successMessage">
-                                {{ state.successMessage }}
-                            </div>
-                            <div class="row my-3">
-                                <div class="col-lg-6 col-md-12 mb-4">
-                                    <label for="" class="form-label">Password</label>
-                                    <span class="d-block text-danger font-weight-bold animate__animated animate__fadeIn"
-                                        v-if="v$.password.$error">* &nbsp;{{
-                                                v$.password.$errors[0].$message
-                                        }}</span>
-                                    <input type="password" class="form-control" v-model="state.password" />
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <label for="" class="form-label">Re Type Your Password</label>
-                                    <span class="d-block text-danger font-weight-bold animate__animated animate__fadeIn"
-                                        v-if="v$.confirm_password.$error">* &nbsp;{{
-                                                v$.confirm_password.$errors[0].$message
-                                        }}</span>
-                                    <input type="password" class="form-control" v-model="state.confirm_password" />
-                                </div>
-                            </div>
-                            <button class="btn" @click.prevent="handleSubmit">Update Password</button>
-                        </form>
+                    <div class="row my-3">
+                        <div class="col-lg-6 col-md-12 mb-4">
+                            <label for="" class="form-label">Password</label>
+                            <span class="d-block text-danger font-weight-bold animate__animated animate__fadeIn"
+                                v-if="v$.password.$error">* &nbsp;{{
+                                        v$.password.$errors[0].$message
+                                }}</span>
+                            <input type="password" class="form-control" v-model="state.password" />
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <label for="" class="form-label">Re Type Your Password</label>
+                            <span class="d-block text-danger font-weight-bold animate__animated animate__fadeIn"
+                                v-if="v$.confirm_password.$error">* &nbsp;{{
+                                        v$.confirm_password.$errors[0].$message
+                                }}</span>
+                            <input type="password" class="form-control" v-model="state.confirm_password" />
+                        </div>
                     </div>
-                </div>
+                    <button class="btn" @click.prevent="handlePassword">Update Password</button>
+                </form>
             </div>
         </div>
-        <!-- Form End -->
     </div>
+
 </template>
 
 <script>
@@ -77,13 +72,9 @@ export default {
     },
     methods: {
 
-        handleSubmit() {
-
+        handlePassword() {
             this.v$.$validate();
             if (!this.v$.$error) {
-
-
-
                 axios.post('auth/password-update/' + this.user.uuid, {
                     'password': this.state.password,
                 }).then(response => {
@@ -97,6 +88,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+main {
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+}
+
 .container {
     overflow-x: hidden;
 
@@ -113,33 +111,6 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
-
-            &.profile_card {
-                height: 400px;
-
-                img.profile_pic {
-                    width: 200px;
-                    height: 200px;
-                    border-radius: 50%;
-
-                    object-fit: cover;
-                    border: 5px solid var(--dashboard-main);
-                    padding: 2px;
-                    transform: translate(0px, 0%);
-
-                }
-            }
-
-            img.profile_pic {
-                width: 150px;
-                height: 150px;
-                border-radius: 50%;
-                object-fit: cover;
-                transform: translate(0px, 55%);
-                border: 5px solid var(--dashboard-main);
-                padding: 2px;
-
-            }
 
             h1 {
                 color: #ffff;
@@ -178,12 +149,6 @@ export default {
                     color: #fff;
                     border-radius: 5px;
                     font-weight: 800;
-                }
-            }
-
-            table.table {
-                tr {
-                    cursor: pointer;
                 }
             }
         }
