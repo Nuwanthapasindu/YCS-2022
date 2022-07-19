@@ -10,11 +10,13 @@
             <span class="WelcomeText">
                 {{ WelcomeText }}
             </span>
+
             <div class="info">
-                <span> Nuwantha Pasindu</span>
+                <span v-if="user !== null"> {{ user.full_name }}</span>
+                <!-- <span v-if="state.User !== null"> {{ state.User.full_name }}</span> -->
                 <div class="user">
-                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                        alt="" srcset="">
+                    <img :src="user.profile_pic" alt="Profile Picture" srcset="" v-if="user !== null" />
+                    <img :src="state.User.profile_pic" alt="Profile Picture" srcset="" v-if="state.User !== null" />
                 </div>
                 <div class="hamburger" @click="toggleNav()" :class="nav_active ? 'active' : ''">
                     <div class="bar"></div>
@@ -25,7 +27,19 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
+import { mapGetters } from 'vuex'
 export default {
+    setup() {
+        const state = reactive({
+            User: null,
+        })
+        return { state };
+    },
+    computed: mapGetters({
+        user: 'auth/GET_USER'
+    }),
+
 
     data() {
         return {
@@ -64,6 +78,12 @@ export default {
             this.$emit('toggleNav', this.nav_active)
         },
 
+    },
+
+    watch: {
+        user(newValue, OldValue) {
+            this.state.User = newValue !== null ? newValue : OldValue;
+        }
     },
 }
 </script>

@@ -22,7 +22,7 @@ class UserFactory extends Factory
         return [
             'uuid'=>Uuid::generate()->string,
             'profile_pic'=>'https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-            'full_name'=>$this->faker->name,
+            'full_name'=>'Admin',
             'mobile_number'=>$this->faker->phoneNumber,
             'address'=>$this->faker->address,
             'email'=>'hnpkdias@gmail.com',

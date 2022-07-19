@@ -15,7 +15,7 @@ class UserClasses extends Model
         'section_id',
         'class_id'
 ];
-    public function user(){
+    public function get_user(){
         return $this->belongsTo(User::class,'user_id','id');
     }
     public function section(){

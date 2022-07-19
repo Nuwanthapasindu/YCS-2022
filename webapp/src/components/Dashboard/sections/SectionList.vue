@@ -1,5 +1,6 @@
 <template>
     <select class="form-select" aria-label="Default select example" @change="selected_section($event)">
+        <option selected> Select The Section</option>
         <option v-for="(section, key) in sections" :key="key">{{ section }}</option>
     </select>
 </template>

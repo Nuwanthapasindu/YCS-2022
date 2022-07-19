@@ -1,5 +1,7 @@
 <template>
-    <div class="card shadow-sm">
+    <div class="card shadow-sm" @dragenter.prevent="enter" @dragleave.prevent="leave" @dragover.prevent
+        @drop.prevent="drop($event)">
+        <div class="alert alert-danger" v-if="error">{{ error }}</div>
         <div class="card-body">
             <div class="drag">
                 <form enctype="multipart/form-data">
@@ -8,10 +10,10 @@
                         <br />
                         <label for="profile_pic">Select File </label>
                     </p>
-                    <input type="file" accept=".jpg,.png" id="profile_pic">
+                    <input type="file" accept=".jpg,.png" id="profile_pic" @change.prevent="ImageSelect($event)">
                 </form>
             </div>
-            <ProgressBar v-if="progress" :progress="upload_progress" class="my-2" />
+            <ProgressBar v-if="upload_progress !== 0" :progress="upload_progress" class="my-2" />
             <div class="image_preview" v-if="image">
                 <img :src="image" alt="">
             </div>
@@ -21,24 +23,85 @@
 
 <script>
 import ProgressBar from '@/components/Dashboard/progress/ProgressBar.vue';
+import axios from 'axios';
+import { mapGetters, mapActions } from 'vuex';
 export default {
+    computed: mapGetters({
+        user: 'auth/GET_USER'
+    }),
     data() {
 
 
         return {
-            progress: true,
-            upload_progress: 10,
+
+            upload_progress: 0,
             nav_active: false,
-            image: 'https://images.unsplash.com/photo-1484402628941-0bb40fc029e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
+            error: null,
+            dragCount: 0,
+            files: null,
+            images: null,
+            image: ''
         }
     },
     components: {
         ProgressBar
     },
     methods: {
-        toggle(value) {
-            this.nav_active = value;
+
+        ...mapActions({
+            'attempt': 'auth/attempt'
+        }),
+        enter() {
+            this.dragCount++;
+
+        },
+        leave() {
+            this.dragCount--;
+
+        },
+        drop(e) {
+            e.stopPropagation()
+            const files = e.dataTransfer.files;
+            this.addImage(files[0]);
+
+        },
+        ImageSelect(e) {
+            this.files = e.target.files[0];
+            console.log();
+            this.addImage(e.target.files[0]);
+        },
+        addImage(file) {
+            if (!file.type.match('image/*')) {
+                this.error = `${file.name} is not an image`;
+                return;
+            } else {
+                this.error = null;
+                this.files = file;
+                const form = new FormData;
+                form.append('profile_pic', file);
+                axios.post('auth/profile-pic/' + this.user.uuid, form, {
+                    onUploadProgress: progress => {
+
+                        this.upload_progress = Math.round((progress.loaded / progress.total) * 100);
+                    }
+                })
+                    .then(res => {
+                        if (res.data.status === 201) {
+                            this.image = res.data.path;
+                            this.attempt(localStorage.getItem('token'))
+
+                        }
+                    })
+                    .catch(err => {
+                        this.error = err.response.data.message.profile_pic[0];
+                    })
+
+
+            }
+
         }
+
+
     }
 }
 </script>

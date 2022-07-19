@@ -7,42 +7,31 @@
             <NavBar @toggleNav="toggle" />
             <!-- Nav Bar End  -->
             <div class="container">
-
-            
                 <div class="row my-5">
-                    <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-6 col-md-12">
                         <div class="card shadow w-100">
                             <div class="card-head">
                                 <h1>Student Attendance</h1>
                             </div>
-                            <div class="card-body">
+                            <AttendanceTable @reload="this.getData()" :attendance_details="attendance_details" />
 
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="3"></th>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Student Name</th>
-                                                <th>Attendance</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Hanwellage Nuwantha Pasindu Kavishan Dias</td>
-                                                <td><input type="checkbox" /></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
                     </div>
+                    <!-- TODAY STUDENT -->
+                    <!-- <div class="row my-5"> -->
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card shadow w-100">
+                            <div class="card-head">
+                                <h1>Today Attendance</h1>
+                            </div>
+                            <AttendanceHistory :TableData="attendance_history" />
+
+                        </div>
+                    </div>
+                    <!-- </div> -->
                 </div>
-                <TableWidget Heading="Today Student Attendance" :TableHeaders="TableHeaders" />
+
+
             </div>
             <dashboard-footer />
         </div>
@@ -52,20 +41,45 @@
 </template>
 
 <script>
-import TableWidget from '@/components/Dashboard/tables/TableWidget.vue';
+import axios from 'axios';
+import AttendanceTable from '@/components/Dashboard/tables/students/attendence/AttendenceTable.vue';
+import AttendanceHistory from '@/components/Dashboard/tables/students/attendence/AttendanceHistory.vue';
 export default {
+    created() {
+        this.getStudentData()
+        this.getData()
+
+    },
     data() {
         return {
             nav_active: false,
-            TableHeaders: ['#', 'Student Name', 'Attendance', 'time'],
+            attendance_history: {},
+            attendance_details: {}
         };
     },
     methods: {
         toggle(value) {
             this.nav_active = value;
-        }
+        },
+        getData() {
+            axios.get('student/today-attendance').then(response => {
+                this.attendance_history = response.data.attendance
+            
+            }).catch(e => {
+                console.log(e.response.data)
+            })
+        },
+        getStudentData() {
+            axios.get('student/std-attendance').then(response => {
+                this.attendance_details = response.data.Students
+
+            }).catch(e => {
+                console.log(e.response.data)
+            })
+        },
     },
-    components: { TableWidget }
+    components: { AttendanceTable, AttendanceHistory },
+
 }
 </script>
 
@@ -100,17 +114,7 @@ main {
             }
         }
 
-        .card-body {
-            table.table {
-                tr {
-                    input[type="checkbox"] {
-                        width: 20px;
-                        height: 20px;
-                        accent-color: var(--dashboard-main);
-                    }
-                }
-            }
-        }
+
     }
 }
 </style>

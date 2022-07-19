@@ -15,16 +15,13 @@
                             </div>
                             <div class="card-body">
                                 <h3 class="text-center my-2">Please Select The Date</h3>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
+                                <DateSelector @SelectDate="getDates" />
                             </div>
                         </div>
                     </div>
                 </div>
-                <TableWidget :TableData="TableData" :TableHeaders="TableHeaders" :Heading="Heading" v-if="table_show" />
+                <AttendanceHistory :TableData="TableData" :TableHeaders="TableHeaders" :Heading="Heading"
+                    v-if="table_show" />
             </div>
             <dashboard-footer />
         </div>
@@ -35,32 +32,45 @@
 </template>
 
 <script>
-import TableWidget from '@/components/Dashboard/tables/TableWidget.vue';
+import axios from 'axios';
+import AttendanceHistory from '@/components/Dashboard/tables/students/attendence/history/AttendanceTable.vue'
+import DateSelector from '@/components/times/DateSelector.vue'
 export default {
+
     data() {
         return {
             nav_active: false,
             table_show: false,
             TableData: {},
-            Dates: {},
-            TableHeaders: ['#', 'Student', 'Attendance', 'Time', 'Marked By'],
-            Heading: "_ Attendance Records",
+            selectedDate: null,
+            TableHeaders: ['#', 'Student', 'Attendance', 'Time','Marked by'],
+            Heading: " Attendance Records",
         }
     },
-    components: { TableWidget },
-    created() {
-
-    },
+    components: { AttendanceHistory, DateSelector },
+ 
     methods: {
         toggle(value) {
             this.nav_active = value;
+        },
+        getDates(date) {
+            
+            this.Heading = `${date} Attendance Records`;
+            axios.get('student/history/attendance-data?attendanceDate=' + date).then((response) => {
+                this.TableData = response.data.data
+                this.table_show = true
+
+            });
         }
     },
+  
 
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss';
+
 main {
     width: 100vw;
     min-height: 100vh;

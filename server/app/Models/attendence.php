@@ -15,10 +15,18 @@ class attendence extends Model
         'class_id',
         'date',
         'time',
+        'teacher_id',
         'attendance'
     ];
+    protected $casts = [
+        'attendance'=>'boolean'
+    ];
+
     public function student(){
         return $this->belongsTo(student::class,'student_id','id');
+    }
+    public function teacher(){
+        return $this->belongsTo(User::class,'teacher_id','id');
     }
     public function section(){
         return $this->belongsTo(section::class,'section_id','id');
