@@ -20,6 +20,7 @@
     "dotenv": "^16.0.1",
     "laravel-vue-pagination": "^3.0.0",
     "register-service-worker": "^1.7.2",
+    "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"

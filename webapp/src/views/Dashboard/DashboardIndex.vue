@@ -6,8 +6,8 @@
             <!-- Nav Bar Start  -->
             <NavBar @toggleNav="toggle" />
             <!-- Nav Bar End  -->
-            <div class="container">
-
+            <div class="container h-100vh">
+                <dashboard-Calendar class="w-100 my-5 h-100vh" is-dark is-range is-expanded  />
             </div>
             <dashboard-footer />
         </div>
@@ -18,7 +18,7 @@
 
 <script>
 
-
+import 'v-calendar/dist/style.css';
 export default {
 
     data() {
@@ -35,6 +35,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 main {
    // background: var(--dashboard-color);
     width: 100vw;
