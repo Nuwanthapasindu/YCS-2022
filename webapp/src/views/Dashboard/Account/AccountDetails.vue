@@ -44,6 +44,11 @@
                                                 <td>{{ user.email }}</td>
 
                                             </tr>
+                                            <tr>
+                                                <th>Class</th>
+                                                <td>{{ user.get_user_class.get_class.class_name }}</td>
+
+                                            </tr>
                                         </table>
                                     </div>
 

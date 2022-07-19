@@ -10,7 +10,7 @@ import LogOut from '@/views/Dashboard/LogOut'
 import AccountDetails from '@/views/Dashboard/Account/AccountDetails'
 import AccessDenied from '@/views/errors/AccessDenied'
 import UserComplete from '@/views/errors/UserComplete'
-
+import OtherAttendance from '@/views/Dashboard/attendance/other/OtherAttendance'
 import { admin, sectionHead, teacher, common, dashboard } from '@/guards';
 
 
@@ -44,6 +44,12 @@ const routes = [
     path: '/dashboard/attendance',
     name: 'AttendanceMark',
     component: AttendanceMark,
+    beforeEnter: teacher
+  },
+  {
+    path: '/dashboard/attendance/others',
+    name: 'OtherAttendance',
+    component: OtherAttendance,
     beforeEnter: teacher
   },
   {

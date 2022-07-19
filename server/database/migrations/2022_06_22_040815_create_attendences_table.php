@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('date');
             $table->boolean('attendance');
             $table->time('time');
+            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

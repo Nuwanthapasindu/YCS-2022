@@ -56,6 +56,13 @@
                                     <span>Attendance History</span>
                                 </router-link>
                             </li>
+                            <li class="nav-item">
+                                <router-link to="/dashboard/attendance/others" class="nav-link">
+                                    <box-icon name="calendar-check" :animation="IconConfig.animation"
+                                        :color="IconConfig.color" :size="IconConfig.size"></box-icon>
+                                    <span>Other Classes <br /> Attendance Mark</span>
+                                </router-link>
+                            </li>
 
                         </template>
                         <hr class="divider</hr>">

@@ -6,8 +6,6 @@
                     <th>#</th>
                     <th>Student Name</th>
                     <th>Attendance</th>
-
-
                 </tr>
             </thead>
         </table>
@@ -43,27 +41,30 @@
 import axios from 'axios';
 export default {
     props: {
-    
+
         attendance_details: {
             type: Object,
-            
-        },
- },
 
-   
+        },
+    },
+
+
     data() {
         return {
             attendance: {},
-          
+
         }
     },
     methods: {
 
-    
-     
-        mark(id) {       
-            axios.get('student/attendance/'+id).then(() => {
-                this.$emit('reload',true);
+
+
+        mark(id) {
+            var classId = localStorage.getItem('selected_class');
+
+            axios.get(`student/other/attendance?uid=${id}&classId=${classId}`).then(() => {
+
+                this.$emit('reload', true);
             })
         },
 
@@ -72,7 +73,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .heading {
     font-weight: 800;
     color: var(--dashboard-color);
@@ -82,10 +82,12 @@ export default {
 
 .row {
     overflow-x: hidden;
-.table-responsive{
-    max-height: 500px;
-    overflow:auto;
-}
+
+    .table-responsive {
+        max-height: 500px;
+        overflow: auto;
+    }
+
     table {
         tr {
             th {

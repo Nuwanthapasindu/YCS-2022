@@ -8,6 +8,8 @@ use \App\Http\Controllers\SectionHeadController;
 use \App\Http\Controllers\SectionClassesController;
 use \App\Http\Controllers\TeacherController;
 use \App\Http\Controllers\ProfileCompleteController;
+use \App\Http\Controllers\AttendanceHistoryController;
+use \App\Http\Controllers\OtherAttendanceMarkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,10 +63,22 @@ Route::post('/auth/login',[AuthController::class,'login']);
             Route::post('/add',[TeacherController::class,'add']);
             Route::get('/attendance/{uid}',[TeacherController::class,'attendance']);
             Route::get('/all',[TeacherController::class,'all']);
-            Route::get('/attendance',[TeacherController::class,'allStudents']);
+            Route::get('/std-attendance',[TeacherController::class,'allStudents']);
+            Route::get('/today-attendance',[TeacherController::class,'todayAttendance']);
             Route::get('/edit/{uid}',[TeacherController::class,'edit']);
             Route::put('/update/{uid}',[TeacherController::class,'update']);
             Route::delete('/delete/{uid}',[TeacherController::class,'drop']);
+            Route::get('/classes',[TeacherController::class,'getStudentClass']);
+            Route::get('/classes/{uid}',[TeacherController::class,'getClassStudent']);
+
+            Route::prefix('/history')->group(function (){
+                Route::get('attendance-data',[AttendanceHistoryController::class,'getHistoryDate']);
+            });
+
+            Route::prefix('/other')->group(function (){
+            Route::get('/attendance/',[OtherAttendanceMarkController::class,'attendance']);
+            Route::get('/today-attendance',[OtherAttendanceMarkController::class,'todayAttendance']);
+            });
         });
 
     });

@@ -11,6 +11,7 @@
     "@popperjs/core": "^2.11.5",
     "@vuelidate/core": "^2.0.0-alpha.42",
     "@vuelidate/validators": "^2.0.0-alpha.30",
+    "@vuepic/vue-datepicker": "^3.3.1",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",

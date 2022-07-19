@@ -8,12 +8,25 @@
             <!-- Nav Bar End  -->
             <div class="container">
                 <div class="row my-5">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card shadow w-100">
+                            <div class="card-head">
+                                <h1 class="text-center">Other Classes Student Attendance Mark</h1>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="text-center my-2">Please Select The Student Class</h3>
+                                <ClassSelector @stdClass="getStudents" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-5" v-if="table_show">
                     <div class="col-lg-6 col-md-12">
                         <div class="card shadow w-100">
                             <div class="card-head">
                                 <h1>Student Attendance</h1>
                             </div>
-                            <AttendanceTable @reload="this.getData()" :attendance_details="attendance_details" />
+                            <AttendanceMark @reload="this.getData()" :attendance_details="attendance_details" />
 
                         </div>
                     </div>
@@ -24,66 +37,72 @@
                             <div class="card-head">
                                 <h1>Today Attendance</h1>
                             </div>
-                            <AttendanceHistory :TableData="attendance_history" />
+                            <AttendanceHistory :TableData="TableData" />
 
                         </div>
                     </div>
                     <!-- </div> -->
                 </div>
-
-
             </div>
             <dashboard-footer />
         </div>
         <!-- Dashboard  Contents -->
 
     </main>
+
 </template>
 
 <script>
 import axios from 'axios';
-import AttendanceTable from '@/components/Dashboard/tables/students/attendence/AttendenceTable.vue';
+import AttendanceMark from '@/components/Dashboard/students/others/AttendanceMark'
 import AttendanceHistory from '@/components/Dashboard/tables/students/attendence/AttendanceHistory.vue';
+import ClassSelector from '@/components/Dashboard/students/classes/ClassSelector.vue';
 export default {
-    created() {
-        this.getStudentData()
-        this.getData()
 
-    },
     data() {
         return {
             nav_active: false,
-            attendance_history: {},
-            attendance_details: {}
-        };
+            table_show: false,
+            attendance_details: {},
+            TableData: {},
+            selectedDate: null,
+            TableHeaders: ['#', 'Student', 'Attendance', 'Time', 'Marked by'],
+            Heading: " Attendance Records",
+        }
     },
+    components: { ClassSelector, AttendanceHistory, AttendanceMark },
+
     methods: {
         toggle(value) {
             this.nav_active = value;
         },
-        getData() {
-            axios.get('student/today-attendance').then(response => {
-                this.attendance_history = response.data.attendance
-            
-            }).catch(e => {
-                console.log(e.response.data)
-            })
-        },
-        getStudentData() {
-            axios.get('student/std-attendance').then(response => {
-                this.attendance_details = response.data.Students
+        getStudents(class_id) {
 
+            localStorage.setItem('selected_class', class_id)
+            axios.get('student/classes/' + class_id).then((response) => {
+
+                this.attendance_details = response.data.students
+                this.table_show = true
+            })
+        },
+        getData() {
+          var classId =  localStorage.getItem('selected_class')
+            axios.get(`student/other/today-attendance?classId=${classId}`).then(response => {
+                this.TableData = response.data.attendance
             }).catch(e => {
                 console.log(e.response.data)
             })
         },
+   
     },
-    components: { AttendanceTable, AttendanceHistory },
+
 
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss';
+
 main {
     width: 100vw;
     min-height: 100vh;
@@ -114,7 +133,17 @@ main {
             }
         }
 
-
+        .card-body {
+            table.table {
+                tr {
+                    input[type="checkbox"] {
+                        width: 20px;
+                        height: 20px;
+                        accent-color: var(--dashboard-main);
+                    }
+                }
+            }
+        }
     }
 }
 </style>
