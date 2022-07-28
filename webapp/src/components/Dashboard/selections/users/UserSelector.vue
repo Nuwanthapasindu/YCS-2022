@@ -1,24 +1,28 @@
 <template>
-    <select class="form-select" aria-label="Default select example" @change="selected_section($event)">
-        <option selected> Select The Section</option>
-        <option v-for="(section, key) in sections" :key="key">{{ section }}</option>
+    <select @change.prevent="select_user($event)" class="form-control">
+        <option>Select The user</option>
+        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.full_name }} &nbsp; ({{ user.role }})
+        </option>
+
     </select>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+    mounted() {
+        axios.get('/user/all').then(response => this.users = response.data.users)
+    },
     data() {
         return {
-            sections: [
-                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'O/L', 'Math', 'Bio', 'Commerce', 'Art', 'Tech'
-            ]
+            users: null
         }
     },
     methods: {
-        selected_section(e) {
-            this.$emit('selected_section', e.target.value);
+        select_user(e) {
+            this.$emit('select_user', e.target.value)
         }
-    }
+    },
 }
 </script>
 

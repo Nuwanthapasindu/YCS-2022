@@ -28,6 +28,6 @@ class Account_verification extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->subject('Email Verification')->view('emails.Account_verification', ['data' => $this->data]);
     }
 }

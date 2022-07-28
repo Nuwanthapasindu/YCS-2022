@@ -1,17 +1,24 @@
 <template>
     <select class="form-select" aria-label="Default select example" @change="selected_section($event)">
         <option selected> Select The Section</option>
-        <option v-for="(section, key) in sections" :key="key">{{ section }}</option>
+        <option v-for="(section, key) in sections" :key="key" :value="section.id">
+            Section {{ section.section }} &nbsp;(
+
+            {{ section.additional_data }}
+            )
+        </option>
     </select>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+    mounted() {
+        axios.get('all-sections').then(response => this.sections = response.data.sections);
+    },
     data() {
         return {
-            sections: [
-                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'O/L', 'Math', 'Bio', 'Commerce', 'Art', 'Tech'
-            ]
+            sections: ''
         }
     },
     methods: {

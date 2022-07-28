@@ -68,7 +68,8 @@
                                                 v-if="v$.password.$error">* &nbsp;{{
                                                         v$.password.$errors[0].$message
                                                 }}</span>
-                                            <input type="password" class="form-control" v-model="state.password" />
+                                            <input type="password" class="form-control" autocomplete
+                                                v-model="state.password" />
                                         </div>
                                         <div class="col-lg-6 col-md-12">
                                             <label for="" class="form-label">Re Type Your Password</label>
@@ -77,7 +78,7 @@
                                                 v-if="v$.confirm_password.$error">* &nbsp;{{
                                                         v$.confirm_password.$errors[0].$message
                                                 }}</span>
-                                            <input type="password" class="form-control"
+                                            <input type="password" autocomplete class="form-control"
                                                 v-model="state.confirm_password" />
                                         </div>
                                     </div>
@@ -106,7 +107,7 @@
 
 <script>
 import ImageUploader from '@/components/Dashboard/uploads/ImageUploader.vue';
-import router from '@/router';
+// import router from '@/router';
 import useVuelidate from '@vuelidate/core'
 import { reactive, computed } from 'vue';
 import axios from 'axios';
@@ -171,9 +172,9 @@ export default {
                     'Address': this.state.Address,
                     'password': this.state.password,
                 }).then(response => {
-                    this.state.successMessage = response.data.message
                     this.attempt(localStorage.getItem('token'))
-                    router.push('/dashboard');
+                    this.state.successMessage = response.data.message
+                    setTimeout(() => this.$router.push('/dashboard'), 2000);
                 }).catch(e => {
                     this.state.errorMessages = e.response.data.message
                 })

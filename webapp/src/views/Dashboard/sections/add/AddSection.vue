@@ -259,6 +259,7 @@ export default {
                 }
             }).catch(e => {
                 this.errors = e.response.data.message;
+                this.sending = true;
             })
         },
         get_details(id) {

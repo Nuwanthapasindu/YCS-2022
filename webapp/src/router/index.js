@@ -11,6 +11,9 @@ import AccountDetails from '@/views/Dashboard/Account/AccountDetails'
 import AccessDenied from '@/views/errors/AccessDenied'
 import UserComplete from '@/views/errors/UserComplete'
 import OtherAttendance from '@/views/Dashboard/attendance/other/OtherAttendance'
+import ForgotPassword from '@/views/ForgotPassword/ForgotPassword'
+import PasswordUpdate from '@/views/ForgotPassword/PasswordUpdate'
+import AsignUser from '@/views/Dashboard/sections/AssignUser/AsignUser'
 import { admin, sectionHead, teacher, common, dashboard } from '@/guards';
 
 
@@ -29,11 +32,18 @@ const routes = [
     beforeEnter: admin
   },
   {
+    path: '/dashboard/section/assign-teacher',
+    name: 'AsignUser',
+    component: AsignUser,
+    beforeEnter: admin
+  },
+  {
     path: '/dashboard/add-class',
     name: 'AddClasses',
     component: AddClasses,
     beforeEnter: sectionHead
   },
+
   {
     path: '/dashboard/add-students',
     name: 'StudentAdd',
@@ -82,6 +92,18 @@ const routes = [
     path: '/login',
     name: 'LoginPage',
     component: LoginPage,
+
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+
+  },
+  {
+    path: '/password-update',
+    name: 'PasswordUpdate',
+    component: PasswordUpdate,
 
   },
 

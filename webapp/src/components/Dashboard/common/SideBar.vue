@@ -18,22 +18,33 @@
                                 <span>Dashboard</span>
                             </router-link>
                         </li>
-                        <!--  v-if="user.role == 'admin'" -->
-                        <li class="nav-item" v-if="state.role == 'admin'">
-                            <router-link to="/dashboard/add-section" class="nav-link">
-                                <box-icon name="building" :animation="IconConfig.animation" :color="IconConfig.color"
-                                    :size="IconConfig.size"></box-icon>
-                                <span>Add Sections</span>
-                            </router-link>
-                        </li>
-                        <!-- v-if="user.role == 'section_head'" -->
-                        <li class="nav-item" v-if="state.role == 'section_head'">
-                            <router-link to="/dashboard/add-class" class="nav-link">
-                                <box-icon name="layer-plus" :animation="IconConfig.animation" :color="IconConfig.color"
-                                    :size="IconConfig.size"></box-icon>
-                                <span>Add Classes</span>
-                            </router-link>
-                        </li>
+
+                        <template v-if="state.role == 'admin'">
+                            <li class="nav-item">
+                                <router-link to="/dashboard/add-section" class="nav-link">
+                                    <box-icon name="building" :animation="IconConfig.animation"
+                                        :color="IconConfig.color" :size="IconConfig.size"></box-icon>
+                                    <span>Add Sections</span>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link to="/dashboard/section/assign-teacher" class="nav-link">
+                                    <box-icon name="building" :animation="IconConfig.animation"
+                                        :color="IconConfig.color" :size="IconConfig.size"></box-icon>
+                                    <span>Assign user to section</span>
+                                </router-link>
+                            </li>
+                        </template>
+                        <template v-if="state.role == 'section_head'">
+                            <li class="nav-item">
+                                <router-link to="/dashboard/add-class" class="nav-link">
+                                    <box-icon name="layer-plus" :animation="IconConfig.animation"
+                                        :color="IconConfig.color" :size="IconConfig.size"></box-icon>
+                                    <span>Add Classes</span>
+                                </router-link>
+                            </li>
+                        </template>
                         <template v-if="state.role == 'teacher'">
                             <li class="nav-item">
                                 <router-link to="/dashboard/add-students" class="nav-link">

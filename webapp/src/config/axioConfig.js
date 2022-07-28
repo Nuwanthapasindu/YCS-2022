@@ -1,4 +1,5 @@
 import axios from 'axios'
-axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+// axios.defaults.baseURL ='https://testserver.virtuelsolutions.com/api/';
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';

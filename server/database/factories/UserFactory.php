@@ -20,16 +20,16 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'uuid'=>Uuid::generate()->string,
-            'profile_pic'=>'https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-            'full_name'=>'Admin',
-            'mobile_number'=>$this->faker->phoneNumber,
-            'address'=>$this->faker->address,
-            'email'=>'hnpkdias@gmail.com',
-            'password'=>Hash::make('12345678'),
-            'role'=>'admin',
-            'status'=> true,
-            'completed'=> true,
+            'uuid' => Uuid::generate()->string,
+            'profile_pic' => null,
+            'full_name' => 'Admin',
+            'mobile_number' => $this->faker->phoneNumber,
+            'address' => $this->faker->address,
+            'email' => 'hnpkdias@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'admin',
+            'status' => true,
+            'completed' => true,
         ];
     }
 

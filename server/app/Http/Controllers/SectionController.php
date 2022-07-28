@@ -21,11 +21,13 @@ class SectionController extends Controller
     public function __construct()
     {
 
-        if (auth()->guard('api')->user() === null ||
+        if (
+            auth()->guard('api')->user() === null ||
             auth()->guard('api')->user()->status === false ||
             auth()->guard('api')->user()->completed === false ||
-            auth()->guard('api')->user()->role->name !== roles::ADMIN->name):
-         dd('You do not have permission to access this secured area');
+            auth()->guard('api')->user()->role->name !== roles::ADMIN->name
+        ) :
+            dd('You do not have permission to access this secured area');
         endif;
     }
 
@@ -35,104 +37,146 @@ class SectionController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function add(Request $request){
+    public function add(Request $request)
+    {
         $rules = [
-            'section'=>'required|string|unique:sections',
-            'year'=>'numeric',
-            'Section_head_name'=>'required|string',
-            'password' =>'required|min:8',
-            'email' =>'required|email|unique:users'
+            'section' => 'required|string',
+            'year' => 'numeric',
+            'Section_head_name' => 'required|string',
+            'password' => 'required|min:8',
+            'email' => 'required|email|unique:users'
         ];
 
-//        Validating
-        $validator = Validator::make($request->all(),$rules);
-        if ($validator->fails()):
-            return response()->json(['status'=>400,'message'=>$validator->errors()],400);
+        //        Validating
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) :
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
         endif;
 
         //        Creating Section
         $section_uuid = Uuid::generate()->string;
         $section = new section();
-        $section->uuid =$section_uuid;
-        $section->section =$request->section;
-        $section->additional_data =$request->other_details;
-        if(!$section->save()):
-            return response()->json(['message'=>'There was an error creating a school Section on our system'],400);
-           else:
+        $section->uuid = $section_uuid;
+        $section->section = $request->section;
+        $section->additional_data = $request->other_details;
+        if (!$section->save()) :
+            return response()->json(['message' => 'There was an error creating a school Section on our system'], 400);
+        else :
             $section_id =  LatestRecordHelper::latest_section();
-            endif;
+        endif;
 
-//      Creating User
+        //      Creating User
         $user_uuid = Uuid::generate()->string;
         $user = new User();
         $user->uuid = $user_uuid;
         $user->email = $request->email;
-        $user->profile_pic = 'http://localhost:8000/storage/profilePictures/user.jpg';
+        $user->profile_pic = null;
         $user->full_name = $request->Section_head_name;
         $user->password = Hash::make($request->password);
         $user->role = roles::SECTION_HEAD;
         $user->status = true;
 
-        if(!$user->save()):
-            return response()->json(['message'=>'There was an error creating a user on our system'],400);
-        else:
+        if (!$user->save()) :
+            return response()->json(['message' => 'There was an error creating a user on our system'], 400);
+        else :
             $user_id =  LatestRecordHelper::latest_user();
         endif;
 
-//        Creating Section Admin Class
+        //        Creating Section Admin Class
         $class_uuid = Uuid::generate()->string;
         $section_class = new  sectionClasses();
-        $section_class->uuid=$class_uuid;
-        $section_class->section_id=$section_id;
-        $section_class->class_name='*';
-        $section_class->other= 'SECTION HEAD CLASS';
-        if ($request->year !== null):
-        $section_class->year= $request->year;
-        else:
-        $section_class->year=date('Y');
-            endif;
-        if(!$section_class->save()):
-            return response()->json(['message'=>'There was an error creating a section head class on our system'],400);
-        else:
+        $section_class->uuid = $class_uuid;
+        $section_class->section_id = $section_id;
+        $section_class->class_name = '*';
+        $section_class->other = 'SECTION HEAD CLASS';
+        if ($request->year !== null) :
+            $section_class->year = $request->year;
+        else :
+            $section_class->year = date('Y');
+        endif;
+        if (!$section_class->save()) :
+            return response()->json(['message' => 'There was an error creating a section head class on our system'], 400);
+        else :
             $class_id =  LatestRecordHelper::latest_class();
         endif;
 
-//        Assign to user class
+        //        Assign to user class
         $user_class = new UserClasses();
         $user_class->user_id = $user_id;
         $user_class->section_id = $section_id;
         $user_class->class_id = $class_id;
         $user_class->save();
 
-        emailController::new_account_notify($request->email,$request->full_name,$request->password,roles::SECTION_HEAD->value);
-        return response()->json(['status'=>201,'Message'=> 'Successfully Created'],201);
-
-
+        emailController::new_account_notify($request->email, $request->full_name, $request->password, roles::SECTION_HEAD->value);
+        return response()->json(['status' => 201, 'Message' => 'Successfully Created'], 201);
     }
 
     /**
      * ALL
      * @return \Illuminate\Http\JsonResponse
      */
-    public function all(){
-        $sections = section::where('id','!=','1')->orderBy('id','desc')->get();
+    public function all()
+    {
+        $sections = section::where('section', '!=', '*')->orderBy('id', 'desc')->get();
 
-        return response()->json(['status'=>200,'sections'=>$sections],200);
+        return response()->json(['status' => 200, 'sections' => $sections], 200);
     }
 
     /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sectionData($id){
-        $sections = UserClasses::where('section_id',$id,)->get();
-        foreach ($sections as $section):
+    public function sectionData($id)
+    {
+        $sections = UserClasses::where('section_id', $id,)->get();
+        foreach ($sections as $section) :
             $section->get_user;
             $section->get_class;
-//            $section->section;
-            endforeach;
-        return response()->json(['status'=>200,'Section_classes'=>$sections],200);
+        //            $section->section;
+        endforeach;
+        return response()->json(['status' => 200, 'Section_classes' => $sections], 200);
     }
 
 
+    public function assign(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'User_id' => 'required|numeric|exists:users,id',
+            'Section_id' => 'required|numeric|exists:sections,id',
+        ]);
+        if ($validator->fails()) :
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        endif;
+
+        // GETTING THE USER USING ID
+        $user = User::where('id', $request->User_id)->first();
+        // UPDATE THE USER ROLE TO SECTION_HEAD
+        $user->role = roles::SECTION_HEAD->value;
+        $user->update();
+
+
+        // FIND THE SECTION HEAD CLASS
+        $rules = [
+            'section_id' => $request->Section_id,
+            'class_name' => '*',
+        ];
+        $sectionHead_class = sectionClasses::where($rules)->first('id');
+        // FIND ALREADY ASSIGNED SECTION HEAD CLASS
+
+        $rules = [
+            'section_id' => $request->Section_id,
+            'class_id' => $sectionHead_class->id
+        ];
+        // DELETE
+        $assignedSectionHeadClass = UserClasses::where($rules)->first()->delete();
+
+        // UPDATE THE USER ASSIGNED CLASS
+        $assigned_class = UserClasses::where('user_id', $request->User_id)->first();
+
+        $assigned_class->user_id = $request->User_id;
+        $assigned_class->section_id = $request->Section_id;
+        $assigned_class->class_id = $sectionHead_class->id;
+        $assigned_class->update();
+        return response()->json(['status' => 200, 'message' => 'Success'], 200);
+    }
 }

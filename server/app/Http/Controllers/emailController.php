@@ -17,12 +17,13 @@ class emailController extends Controller
      * @param $role
      * @return void
      */
-    public static function new_account_notify($email,$name,$password,$role){
+    public static function new_account_notify($email, $name, $password, $role)
+    {
         $data = [
-            'email'=>$email,
-            'name'=>$name,
-            'password'=>$password,
-            'role'=>$role,
+            'email' => $email,
+            'name' => $name,
+            'password' => $password,
+            'role' => $role,
         ];
 
         Mail::to($email)->send(new new_account($data));
@@ -34,13 +35,13 @@ class emailController extends Controller
      * @return void
      */
 
-//    public static function account_verification($email,$otp){
-//        $data = [
-//            'email'=>$email,
-//            'otp'=>$otp
-//        ];
-//
-//        Mail::to($email)->send(new Account_verification($data));
-//    }
+    public static function account_verification($email, $token)
+    {
+        $data = [
+            'email' => $email,
+            'token' => $token
+        ];
 
+        Mail::to($email)->send(new Account_verification($data));
+    }
 }

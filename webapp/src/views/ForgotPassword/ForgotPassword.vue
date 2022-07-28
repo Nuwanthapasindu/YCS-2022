@@ -5,12 +5,17 @@
                 <div class="col-lg-6 col-md-12 py-5 ">
                     <div class="container py-5">
                         <div class="row my-5">
-                            <h1 class="text-center">Welcome Back</h1>
+                            <h1 class="text-center">Forgot Password</h1>
                             <small class="text-center">
-                                Welcome back! Please enter Your details
+                                Please enter Your Email Address
                             </small>
                         </div>
-                        <form class="mb-4">
+                        <form>
+                            <div class="alert alert-danger" v-for="(erMessage, key) in state.errorMessage" :key="key">
+                                {{ erMessage[0] }}
+                            </div>
+                            <div class="alert alert-success" v-if="state.successMessage">{{ state.successMessage }}
+                            </div>
                             <div class="mb-4">
                                 <label for="exampleInputEmail1" class="form-label">Email address</label>
                                 <span class="d-block text-danger font-weight-bold animate__animated animate__fadeIn"
@@ -20,28 +25,11 @@
                                 <input type="email" placeholder="Enter Your Email Address" class="form-control"
                                     v-model="state.email" :class="v$.email.$error ? 'error' : null" />
                             </div>
-                            <div class="mb-4">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <span class="d-block text-danger font-weight-bold animate__animated animate__fadeIn"
-                                    v-if="v$.password.$error">* &nbsp;{{
-                                            v$.password.$errors[0].$message
-                                    }}</span>
-                                <div class="row password-row">
-                                    <input :type="state.show ? 'text' : 'password'" autocomplete
-                                        placeholder="Enter Your Password" class="form-control" v-model="state.password"
-                                        :class="v$.password.$error ? 'error' : null" />
+                            <button type="submit" class="btn form-control mt-2 login-button" @click.prevent="validation"
+                                v-if="!state.show">Verify Email</button>
 
-
-                                    <box-icon :name='state.show ? "hide" : "show"' class="eye"
-                                        @click="state.show = !state.show"></box-icon>
-
-                                </div>
-                            </div>
-                            <button type="submit" class="btn form-control mt-2 login-button"
-                                @click.prevent="validation">Sign In</button>
+                            <LoaderView v-if="state.show" />
                         </form>
-
-                        <router-link to="forgot-password" class="link">Forgot password</router-link>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12" id="img">
@@ -53,68 +41,48 @@
 </template>
 
 <script>
-
-import { mapActions, mapState } from 'vuex';
+import axios from 'axios'
 import { reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core'
-import { required, email, minLength, helpers } from '@vuelidate/validators'
+import { required, email, helpers } from '@vuelidate/validators'
+import LoaderView from '@/components/loader/LoaderView.vue';
+
 export default {
-    computed: mapState({
-        User: state => state.auth.user
-    }),
-    watch: {
-        User(newValue, oldValue) {
-
-            if (newValue !== oldValue) {
-                this.$router.push('dashboard');
-
-            }
-
-        }
-    },
-
     setup() {
         const state = reactive({
-            email: '',
-            password: '',
+            email: "",
             show: false,
-
+            successMessage: "",
+            errorMessage: "",
         });
-
         const rules = computed(() => {
             return {
                 email: {
-                    required: helpers.withMessage('The email field is required', required),
-                    email: helpers.withMessage('The email you typed is not a valid email address', email),
+                    required: helpers.withMessage("The email field is required", required),
+                    email: helpers.withMessage("The email you typed is not a valid email address", email),
                 },
-                password: {
-                    required: helpers.withMessage('The password field is required', required),
-                    minLength: helpers.withMessage('The password must be at least 9 characters', minLength(8)),
-                },
-
-            }
-        })
-
+            };
+        });
         const v$ = useVuelidate(rules, state);
-        return { state, v$ }
+        return { state, v$ };
     },
     methods: {
-        ...mapActions({
-            'Login': 'auth/signIn'
-        }),
         validation() {
             this.v$.$validate();
             if (!this.v$.$error) {
-                this.Login({
-                    email: this.state.email,
-                    password: this.state.password,
+                this.state.show = true;
+                axios.post("auth/email-verification", { email: this.state.email }).then(response => {
+                    this.state.successMessage = response.data.message;
+                    this.state.show = false;
+
+                }).catch(e => {
+                    this.state.errorMessage = e.response.data.message
+                    this.state.show = false;
                 });
-
             }
-
         },
     },
-
+    components: { LoaderView }
 }
 </script>
 
@@ -131,14 +99,8 @@ section.container-fluid {
         border-radius: 15px;
     }
 
-    .link {
-        color: var(--dashboard-color);
-        text-decoration: none;
-        font-weight: bold;
-    }
-
     #img {
-        background-image: url('@/assets/Login/login.jpg');
+        background-image: url('@/assets/ForgotPassword/ForgotPassword.jpg');
         background-size: cover;
         background-position: center center;
     }
