@@ -27,14 +27,22 @@
                                     <span>Add Sections</span>
                                 </router-link>
                             </li>
-
                             <li class="nav-item">
-                                <router-link to="/dashboard/section/assign-teacher" class="nav-link">
+                                <router-link to="/dashboard/assign-existing-user" class="nav-link">
                                     <box-icon name="building" :animation="IconConfig.animation"
                                         :color="IconConfig.color" :size="IconConfig.size"></box-icon>
-                                    <span>Assign user to section</span>
+                                    <span>Assign Existing User</span>
                                 </router-link>
                             </li>
+                            <li class="nav-item">
+                                <router-link to="/dashboard/assign-user" class="nav-link">
+                                    <box-icon name="building" :animation="IconConfig.animation"
+                                        :color="IconConfig.color" :size="IconConfig.size"></box-icon>
+                                    <span>Assign new User</span>
+                                </router-link>
+                            </li>
+
+
                         </template>
                         <template v-if="state.role == 'section_head'">
                             <li class="nav-item">

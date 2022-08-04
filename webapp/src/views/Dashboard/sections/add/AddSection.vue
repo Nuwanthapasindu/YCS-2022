@@ -79,6 +79,7 @@
                                         <button type="submit" class="btn" @click.prevent="AddSection"
                                             v-if="!sending">Add
                                             Section</button>
+                                        <LoaderView v-if="sending" />
                                     </div>
 
                                 </form>
@@ -196,6 +197,7 @@ import YearSelector from '@/components/Dashboard/years/YearSelector.vue';
 import RandomPassword from '@/components/Dashboard/passwords/RandomPassword.vue';
 import axios from 'axios';
 import { reactive } from 'vue';
+import LoaderView from '@/components/loader/LoaderView.vue';
 export default {
     created() {
         this.sections();
@@ -253,13 +255,15 @@ export default {
             axios.post('sections/add', this.state).then(response => {
                 if (response.data.status == 201) {
 
+                    this.errors = null;
                     this.success = response.data.Message;
                     this.sections()
                     this.sending = false;
                 }
             }).catch(e => {
                 this.errors = e.response.data.message;
-                this.sending = true;
+                this.success = null;
+                this.sending = false;
             })
         },
         get_details(id) {
@@ -271,7 +275,7 @@ export default {
             })
         }
     },
-    components: { SectionList, YearSelector, RandomPassword, }
+    components: { SectionList, YearSelector, RandomPassword, LoaderView }
 }
 </script>
 

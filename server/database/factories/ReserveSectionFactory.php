@@ -2,14 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Models\section;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Webpatser\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\section>
  */
-class sectionFactory extends Factory
+class ReserveSectionFactory extends Factory
 {
+    protected $model = section::class;
     /**
      * Define the model's default state.
      *
@@ -19,11 +21,8 @@ class sectionFactory extends Factory
     {
         return [
             'uuid'=>Uuid::generate()->string,
-            'section'=>'*',
-            'additional_data'=> "ADMIN CLASS"
+            'section'=>'Reserve',
+            'additional_data'=> "RESERVE SECTION"
         ];
-//        'uuid'=>Uuid::generate()->string,
-//                 'section'=>'Reserve',
-//                 'additional_data'=> "RESERVE SECTION"
     }
 }

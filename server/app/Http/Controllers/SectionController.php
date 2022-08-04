@@ -117,7 +117,7 @@ class SectionController extends Controller
      */
     public function all()
     {
-        $sections = section::where('section', '!=', '*')->orderBy('id', 'desc')->get();
+        $sections = section::where([['section', '!=', '*']])->orderBy('id', 'desc')->get();
 
         return response()->json(['status' => 200, 'sections' => $sections], 200);
     }
@@ -138,45 +138,13 @@ class SectionController extends Controller
     }
 
 
-    public function assign(Request $request)
+    public function teacher()
     {
-        $validator = Validator::make($request->all(), [
-            'User_id' => 'required|numeric|exists:users,id',
-            'Section_id' => 'required|numeric|exists:sections,id',
-        ]);
-        if ($validator->fails()) :
-            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
-        endif;
-
-        // GETTING THE USER USING ID
-        $user = User::where('id', $request->User_id)->first();
-        // UPDATE THE USER ROLE TO SECTION_HEAD
-        $user->role = roles::SECTION_HEAD->value;
-        $user->update();
-
-
-        // FIND THE SECTION HEAD CLASS
-        $rules = [
-            'section_id' => $request->Section_id,
-            'class_name' => '*',
-        ];
-        $sectionHead_class = sectionClasses::where($rules)->first('id');
-        // FIND ALREADY ASSIGNED SECTION HEAD CLASS
-
-        $rules = [
-            'section_id' => $request->Section_id,
-            'class_id' => $sectionHead_class->id
-        ];
-        // DELETE
-        $assignedSectionHeadClass = UserClasses::where($rules)->first()->delete();
-
-        // UPDATE THE USER ASSIGNED CLASS
-        $assigned_class = UserClasses::where('user_id', $request->User_id)->first();
-
-        $assigned_class->user_id = $request->User_id;
-        $assigned_class->section_id = $request->Section_id;
-        $assigned_class->class_id = $sectionHead_class->id;
-        $assigned_class->update();
-        return response()->json(['status' => 200, 'message' => 'Success'], 200);
+        $users = User::where('role', '!=', 'admin')->get();
+        foreach ($users as $user) {
+            $user->get_user_class->section;
+            $user->get_user_class->get_class;
+        }
+        return response()->json(['list' => $users]);
     }
 }

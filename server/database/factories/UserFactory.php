@@ -23,13 +23,11 @@ class UserFactory extends Factory
             'uuid' => Uuid::generate()->string,
             'profile_pic' => null,
             'full_name' => 'Admin',
-            'mobile_number' => $this->faker->phoneNumber,
-            'address' => $this->faker->address,
             'email' => 'hnpkdias@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
             'status' => true,
-            'completed' => true,
+            'completed' => false,
         ];
     }
 

@@ -13,7 +13,6 @@ import UserComplete from '@/views/errors/UserComplete'
 import OtherAttendance from '@/views/Dashboard/attendance/other/OtherAttendance'
 import ForgotPassword from '@/views/ForgotPassword/ForgotPassword'
 import PasswordUpdate from '@/views/ForgotPassword/PasswordUpdate'
-import AsignUser from '@/views/Dashboard/sections/AssignUser/AsignUser'
 import { admin, sectionHead, teacher, common, dashboard } from '@/guards';
 
 
@@ -29,12 +28,6 @@ const routes = [
     path: '/dashboard/add-section',
     name: 'AddSection',
     component: AddSection,
-    beforeEnter: admin
-  },
-  {
-    path: '/dashboard/section/assign-teacher',
-    name: 'AsignUser',
-    component: AsignUser,
     beforeEnter: admin
   },
   {

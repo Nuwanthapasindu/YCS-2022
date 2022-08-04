@@ -4,6 +4,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 py-5 ">
                     <div class="container py-5">
+                        <router-link to="/">Back</router-link>
                         <div class="row my-5">
                             <h1 class="text-center">Forgot Password</h1>
                             <small class="text-center">

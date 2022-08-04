@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/add', [SectionController::class, 'add']);
         Route::post('/assign', [SectionController::class, 'assign']);
         Route::get('/all', [SectionController::class, 'all']);
+        Route::get('/teacher', [SectionController::class, 'teacher']);
         Route::get('/details/{id}', [SectionController::class, 'sectionData']);
     });
 
