@@ -213,7 +213,6 @@ class TeacherController extends Controller
 
         //        Validationg
         $validator = Validator::make($request->all(), [
-//            'attendance' => 'required|boolean'
             'attendance' => 'nullable|boolean'
         ]);
         if ($validator->fails()) :

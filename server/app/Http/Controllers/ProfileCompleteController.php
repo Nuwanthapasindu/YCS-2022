@@ -22,7 +22,7 @@ class ProfileCompleteController extends Controller
     {
         $rules = [
             'Full_name' => 'required',
-            'mobile_number' => 'required|min:9|max:11',
+            'mobile_number' => 'required|min:9|max:11|unique:users',
             'Address' => 'required',
             'password' => 'required|min:8',
         ];

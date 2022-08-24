@@ -11,6 +11,7 @@ use \App\Http\Controllers\ProfileCompleteController;
 use \App\Http\Controllers\AttendanceHistoryController;
 use App\Http\Controllers\GuestRequestController;
 use \App\Http\Controllers\OtherAttendanceMarkController;
+use \App\Http\Controllers\SummeryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/all', [SectionController::class, 'all']);
         Route::get('/teacher', [SectionController::class, 'teacher']);
         Route::get('/details/{id}', [SectionController::class, 'sectionData']);
+        Route::get('/attendance-summery', [SummeryController::class, 'ClassWise']);
+        Route::get('/all/attendance-summery', [SummeryController::class, 'allSectionSummery']);
+        Route::get('/{section}/attendance-summery', [SummeryController::class, 'selectedSectionAttendance']);
+
     });
 
     // CLASS TEACHER ROUTES
