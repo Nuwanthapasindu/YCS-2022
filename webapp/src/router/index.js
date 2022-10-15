@@ -1,20 +1,124 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import LoginPage from '@/views/login/LoginPage'
+import DashboardIndex from '@/views/Dashboard/DashboardIndex'
+import AddSection from '@/views/Dashboard/sections/add/AddSection'
+import AddClasses from '@/views/Dashboard/Classses/add/AddClasses'
+import StudentAdd from '@/views/Dashboard/students/add/StudentAdd'
+import AttendanceMark from '@/views/Dashboard/attendance/AttendanceMark'
+import AttendanceHistory from '@/views/Dashboard/attendance/history/AttendanceHistory'
+import LogOut from '@/views/Dashboard/LogOut'
+import AccountDetails from '@/views/Dashboard/Account/AccountDetails'
+import AccessDenied from '@/views/errors/AccessDenied'
+import UserComplete from '@/views/errors/UserComplete'
+import OtherAttendance from '@/views/Dashboard/attendance/other/OtherAttendance'
+import ForgotPassword from '@/views/ForgotPassword/ForgotPassword'
+import PasswordUpdate from '@/views/ForgotPassword/PasswordUpdate'
+import { admin, sectionHead, teacher, common, dashboard } from '@/guards';
+
 
 const routes = [
+  // Dashboard URLs
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '/dashboard',
+    name: 'DashboardIndex',
+    component: DashboardIndex,
+    beforeEnter: dashboard
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/dashboard/add-section',
+    name: 'AddSection',
+    component: AddSection,
+    beforeEnter: admin
+  },
+  {
+    path: '/dashboard/add-class',
+    name: 'AddClasses',
+    component: AddClasses,
+    beforeEnter: sectionHead
+  },
+
+  {
+    path: '/dashboard/add-students',
+    name: 'StudentAdd',
+    component: StudentAdd,
+    beforeEnter: teacher
+  },
+  {
+    path: '/dashboard/attendance',
+    name: 'AttendanceMark',
+    component: AttendanceMark,
+    beforeEnter: teacher
+  },
+  {
+    path: '/dashboard/attendance/others',
+    name: 'OtherAttendance',
+    component: OtherAttendance,
+    beforeEnter: teacher
+  },
+  {
+    path: '/dashboard/attendance/history',
+    name: 'AttendanceHistory',
+    component: AttendanceHistory,
+    beforeEnter: teacher
+  },
+  {
+    path: '/dashboard/account',
+    name: 'AccountDetails',
+    component: AccountDetails,
+    beforeEnter: dashboard
+  },
+  {
+    path: '/dashboard/logout',
+    name: 'LogOut',
+    component: LogOut,
+    beforeEnter: dashboard
+  },
+
+
+  // Public Access Url
+
+  {
+    path: '/',
+    redirect: '/login',
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage,
+
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+
+  },
+  {
+    path: '/password-update',
+    name: 'PasswordUpdate',
+    component: PasswordUpdate,
+
+  },
+
+  //  Error Pages URL
+
+  {
+    path: '/access-denied',
+    name: 'AccessDenied',
+    component: AccessDenied,
+
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/login' },
+
+  //  Verify Pages URL
+  {
+    path: '/account-complete',
+    name: 'UserComplete',
+    component: UserComplete,
+    beforeEnter: common,
+
+  },
+
 ]
 
 const router = createRouter({

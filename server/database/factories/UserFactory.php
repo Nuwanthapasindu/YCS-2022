@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\enum\roles;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Webpatser\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -18,11 +20,14 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'uuid' => Uuid::generate()->string,
+            'profile_pic' => null,
+            'full_name' => 'Admin',
+            'email' => 'hnpkdias@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'admin',
+            'status' => true,
+            'completed' => false,
         ];
     }
 

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\enum\roles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -18,9 +19,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'uuid',
+        'profile_pic',
+        'full_name',
+        'mobile_number',
+        'address',
         'email',
         'password',
+        'role',
+        'status',
+        'completed'
+
     ];
 
     /**
@@ -40,5 +49,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => roles::class,
+        'status' => 'boolean',
+        'completed' => 'boolean'
     ];
+
+    public function get_user_class()
+    {
+        return $this->hasOne(UserClasses::class, 'user_id', 'id');
+    }
 }
