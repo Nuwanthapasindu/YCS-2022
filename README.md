@@ -103,7 +103,11 @@ PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET  // passport generated secret key
 ```sh
 php artisan serve
 ```
-
+- Root Userauthentication Cridentials
+ ```sh
+ Email - admin@admin.com
+ Password - 12345678
+ ```
 
 ## Authors
 
