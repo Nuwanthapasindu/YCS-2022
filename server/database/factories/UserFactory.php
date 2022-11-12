@@ -23,7 +23,7 @@ class UserFactory extends Factory
             'uuid' => Uuid::generate()->string,
             'profile_pic' => null,
             'full_name' => 'Admin',
-            'email' => 'hnpkdias@gmail.com',
+            'email' => 'admin@admin.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
             'status' => true,
